@@ -5,6 +5,10 @@
     margin: 0;
 }
 
+:root {
+    --darkColor: rgb(13, 16, 22);
+}
+
 html {
     font-size: 10px;
     height: 100%;
@@ -24,5 +28,140 @@ body, button, input, select, textarea {
 input, textarea {
     appearance: none;
     width: 100%;
+    border-radius: 4px;
     border: 1px solid hsl(216, 14%, 75%);
+    border: 0;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+
+
+/* ----- Curr weather ----- */
+.weather {
+    padding: 40px 0 75px;
+    color: white;
+    background-image: url("./images/cloudy.jpg");
+    background-position: center center;
+    background-size: cover;
+    background-color: hsla(0, 0%, 0%, 0.5);
+    background-blend-mode: darken;
+}
+
+.weather_searchbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background-color: aliceblue;
+}
+
+.weather_searchbar:focus-within {
+    outline: 2px solid hsl(211, 100%, 59%);
+}
+
+.weather_search-input {
+    background: transparent;
+}
+
+.weather_search-input:focus {
+    border: none;
+    outline: none;
+}
+
+.searchbar-icon {
+    left: 5px;
+}
+
+.weather_info {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: 50px;
+}
+
+.weather_temp {
+    font-size: 6.4rem;
+    line-height: 1;
+}
+
+.weather_city {
+    font-size: 3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.weather_sun-extras {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.weather_sun-item {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.weather_extras {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+
+.weather_extra-block {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: repeat(2, auto);
+    align-items: center;
+    gap: 5px 10px;
+}
+
+.weather_extra-block > .icon-container {
+    grid-row: span 2;
+}
+
+.weather_extra-val {
+    font-size: 2.4rem;
+}
+
+.weather_extra-title {
+    text-align: center;
+    font-weight: 600;
+}
+
+
+
+
+/* ----- Utilities ----- */
+.icon-container > svg {
+    display: block;
+}
+
+.content-margin {
+    margin: 0 auto;
+    max-width: 1100px;
+}
+
+.txt-center {
+    text-align: center;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.span-2-col {
+    grid-column: span 2;
+}
+
+.dark-bg {
+    background-color: var(--darkColor);
+    color: white;
 }
