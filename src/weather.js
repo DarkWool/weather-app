@@ -1,3 +1,5 @@
+import "./style.css";
+
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
 
 // Dom cache

@@ -46,7 +46,7 @@ ul {
 .weather {
     padding: 40px 0 80px;
     color: white;
-    background-image: url("./images/cloudy.jpg");
+    /* background-image: url("./images/cloudy.jpg"); */
     background-position: center center;
     background-size: cover;
     background-color: hsla(0, 0%, 0%, 0.5);
