@@ -1,11 +1,20 @@
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
 
+// Dom cache
+const searchForm = document.getElementsByName("searchWeather")[0];
 const currTemp = document.getElementsByClassName("weather_temp")[0];
 const currCity = document.getElementsByClassName("weather_city")[0];
 const sunrise = document.getElementById("sunriseValue");
 const sunset = document.getElementById("sunsetValue");
-
 const weatherExtras = document.getElementsByClassName("weather_extra-val");
+
+
+searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const searchValue = e.target.elements["weatherLocation"].value;
+    fetchWeatherData(searchValue);
+});
 
 
 // Functions
