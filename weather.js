@@ -3,10 +3,12 @@ const key = "e0a910cf9f2a35b506f136dacc4f145f";
 // Dom cache
 const searchForm = document.getElementsByName("searchWeather")[0];
 const currTemp = document.getElementsByClassName("weather_temp")[0];
+const currTempDesc = document.getElementsByClassName("weather_temp-desc")[0];
 const currCity = document.getElementsByClassName("weather_city")[0];
 const sunrise = document.getElementById("sunriseValue");
 const sunset = document.getElementById("sunsetValue");
 const weatherExtras = document.getElementsByClassName("weather_extra-val");
+const hourlyForecastContainer = document.getElementsByClassName("hourly_items")[0];
 
 
 searchForm.addEventListener("submit", (e) => {
@@ -28,7 +30,7 @@ async function fetchWeatherData(location) {
     
     console.log(coords);
     console.log(data);
-
+    
     const formattedData = formatWeatherData(data, coords.locationName);
     updateWeatherData(formattedData);
 }
@@ -52,30 +54,88 @@ function formatWeatherData(data, location) {
     sunrise = `${sunrise.getHours()}:${sunrise.getMinutes()}`; 
     sunset = `${sunset.getHours()}:${sunset.getMinutes()}`; 
 
+    const hourlyForecast = data.hourly.slice(1, 25);
+    const newArr = [];
+    hourlyForecast.forEach((el, index) => {
+        let hour = new Date(el.dt * 1000);
+        hour = `${hour.getHours()}:${hour.getMinutes()}`;
+
+        newArr[index] = {
+            hour,
+            "temp": `${Math.round(el.temp)}°C`,
+            "pop": Math.round(el.pop * 100),
+        };
+    });
+
+    let tempDesc = data.current.weather[0].description[0].toUpperCase() + data.current.weather[0].description.slice(1);
+
     return {
-        "temp": `${Math.round(data.current.temp)}°C`,
-        "feelsLike": `${Math.round(data.current.feels_like)}°C`,
-        "humidity": `${data.current.humidity} %`,
-        "pressure": `${data.current.pressure} hpa`,
-        "windSpeed": `${data.current["wind_speed"]}m/s`,
-        "visibility": `${data.current.visibility / 1000}km`,
-        "uvi": `${Math.round(data.current.uvi)}`,
-        sunrise,
-        sunset,
-        location,
+        "current": {
+            "temp": `${Math.round(data.current.temp)}°C`,
+            tempDesc,
+            "feelsLike": `${Math.round(data.current.feels_like)}°C`,
+            "humidity": `${data.current.humidity} %`,
+            "pressure": `${data.current.pressure} hpa`,
+            "windSpeed": `${data.current["wind_speed"]}m/s`,
+            "visibility": `${data.current.visibility / 1000}km`,
+            "uvi": `${Math.round(data.current.uvi)}`,
+            sunrise,
+            sunset,
+            location,
+        },
+        "hourly": newArr,
     }
 }
 
-function updateWeatherData(data) {
-    currTemp.textContent = data.temp;
-    currCity.textContent = data.location;
-    sunrise.textContent = data.sunrise;
-    sunset.textContent = data.sunset;
+// To get the hour of the place you are currently fetching...
+//  new Date((1665979638 + (timezone*1000)) * 1000) 
 
-    weatherExtras[0].textContent = data.feelsLike;
-    weatherExtras[1].textContent = data.humidity;
-    weatherExtras[2].textContent = data.pressure;
-    weatherExtras[3].textContent = data.windSpeed;
-    weatherExtras[4].textContent = data.visibility;
-    weatherExtras[5].textContent = data.uvi;
+function updateWeatherData(data) {
+    currTemp.textContent = data.current.temp;
+    currTempDesc.textContent = data.current.tempDesc;
+    currCity.textContent = data.current.location;
+    sunrise.textContent = data.current.sunrise;
+    sunset.textContent = data.current.sunset;
+
+    weatherExtras[0].textContent = data.current.feelsLike;
+    weatherExtras[1].textContent = data.current.humidity;
+    weatherExtras[2].textContent = data.current.pressure;
+    weatherExtras[3].textContent = data.current.windSpeed;
+    weatherExtras[4].textContent = data.current.visibility;
+    weatherExtras[5].textContent = data.current.uvi;
+
+    const fragment = document.createDocumentFragment();
+    for (const item of data.hourly) {
+        fragment.append(createHourlyForecastItems(item));
+    }
+
+    hourlyForecastContainer.innerHTML = "";
+    hourlyForecastContainer.append(fragment);
+}
+
+function createHourlyForecastItems(data) {
+    const container = document.createElement("li");
+    const iconContainer = document.createElement("span");
+    const temp = iconContainer.cloneNode();
+    const hour = iconContainer.cloneNode();
+    
+    container.classList.add("hourly_item");
+    iconContainer.classList.add("icon-container");
+    temp.classList.add("hourly_temp");
+    hour.classList.add("hourly_time");
+    
+    temp.textContent = data.temp;
+    hour.textContent = data.hour;
+    iconContainer.innerHTML = `<svg width="36" height="36" viewBox="0 0 24 24">
+    <path d="M9.417 0h6.958l-3.375 8h7l-13 16 4.375-11h-7.375z" /></svg>`;
+    
+    container.append(iconContainer, temp, hour);
+
+    if (data.pop >= 20) {
+        const pop = document.createElement("span");
+        pop.textContent = data.pop + "%";
+        temp.after(pop);
+    }
+
+    return container;
 }

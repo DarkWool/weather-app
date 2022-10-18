@@ -19,7 +19,7 @@ body {
 }
 
 body, button, input, select, textarea {
-    font-family: "Open Sans", sans-serif;
+    font-family: Roboto, sans-serif;
     font-size: 1.6rem;
     color: black;
     text-rendering: optimizeLegibility;
@@ -44,7 +44,7 @@ ul {
 
 /* ----- Curr weather ----- */
 .weather {
-    padding: 40px 0 75px;
+    padding: 40px 0 80px;
     color: white;
     background-image: url("./images/cloudy.jpg");
     background-position: center center;
@@ -83,7 +83,7 @@ ul {
 .weather_info {
     display: grid;
     grid-template-columns: 1fr auto;
-    margin-top: 50px;
+    margin-top: 80px;
 }
 
 .weather_temp {
@@ -112,7 +112,7 @@ ul {
 .weather_extras {
     display: flex;
     justify-content: space-between;
-    margin-top: 50px;
+    margin-top: 60px;
 }
 
 .weather_extra-block {
@@ -120,7 +120,7 @@ ul {
     grid-template-columns: repeat(2, auto);
     grid-template-rows: repeat(2, auto);
     align-items: center;
-    gap: 5px 10px;
+    column-gap: 10px;
 }
 
 .weather_extra-block > .icon-container {
@@ -128,11 +128,43 @@ ul {
 }
 
 .weather_extra-val {
-    font-size: 2.4rem;
+    font-size: 2rem;
 }
 
 .weather_extra-title {
-    text-align: center;
+    font-weight: 600;
+}
+
+
+
+
+/* ----- Hourly forecast ----- */
+.hourly-fc {
+    padding: 50px 0;
+    background-color: var(--darkColor);
+    color: white;
+    fill: white;
+}
+
+.hourly_items {
+    display: flex;
+    column-gap: 60px;
+    margin-top: 40px;
+    padding-bottom: 10px;
+    overflow-x: auto;
+}
+
+.hourly_item {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.hourly_temp {
+    font-size: 2.4rem;
+}
+
+.hourly_time {
     font-weight: 600;
 }
 
@@ -140,6 +172,13 @@ ul {
 
 
 /* ----- Utilities ----- */
+.section-subtitle {
+    font-size: 2.4rem;
+    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+}
+
 .icon-container > svg {
     display: block;
 }
