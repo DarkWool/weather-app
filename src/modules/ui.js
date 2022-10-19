@@ -5,6 +5,7 @@ const searchForm = document.getElementsByName("searchWeather")[0];
 const currTemp = document.getElementsByClassName("weather_temp")[0];
 const currTempDesc = document.getElementsByClassName("weather_temp-desc")[0];
 const currCity = document.getElementsByClassName("weather_city")[0];
+const currDateTime = document.getElementsByClassName("weather_dt")[0];
 const sunrise = document.getElementById("sunriseValue");
 const sunset = document.getElementById("sunsetValue");
 const weatherExtras = document.getElementsByClassName("weather_extra-val");
@@ -23,6 +24,7 @@ function updateWeatherData(data) {
     currTemp.textContent = data.current.temp;
     currTempDesc.textContent = data.current.tempDesc;
     currCity.textContent = data.current.location;
+    currDateTime.textContent = data.current.dt;
     sunrise.textContent = data.current.sunrise;
     sunset.textContent = data.current.sunset;
 

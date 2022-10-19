@@ -54,6 +54,7 @@ function formatWeatherData(data, location) {
 
     return {
         "current": {
+            "dt": format(new Date(data.current.dt * 1000), "MMMM do, h:mm aaaa"),
             "temp": `${Math.round(data.current.temp)}°C`,
             tempDesc,
             "feelsLike": `${Math.round(data.current.feels_like)}°C`,
