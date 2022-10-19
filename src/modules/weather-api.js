@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { updateWeatherData } from "./ui.js";
 
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
@@ -34,14 +35,13 @@ function formatWeatherData(data, location) {
     let sunrise = new Date(data.current.sunrise * 1000);
     let sunset = new Date(data.current.sunset * 1000);
 
-    sunrise = `${sunrise.getHours()}:${sunrise.getMinutes()}`; 
-    sunset = `${sunset.getHours()}:${sunset.getMinutes()}`; 
+    sunrise = format(sunrise, "h:mm aaaa");
+    sunset = format(sunset, "h:mm aaaa");
 
     const hourlyForecast = data.hourly.slice(1, 25);
     const newArr = [];
     hourlyForecast.forEach((el, index) => {
-        let hour = new Date(el.dt * 1000);
-        hour = `${hour.getHours()}:${hour.getMinutes()}`;
+        let hour = format(new Date(el.dt * 1000), "h:mm aaaa");
 
         newArr[index] = {
             hour,
