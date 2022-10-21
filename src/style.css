@@ -172,12 +172,86 @@ ul {
 
 
 
+/* ----- Daily Forecast ----- */
+.daily-fc {
+    padding: 50px 0;
+}
+
+.daily_items {
+    display: flex;
+    gap: 10px;
+    margin-top: 40px;
+    overflow-x: auto;
+}
+
+.daily_item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    max-width: 300px;
+    width: 100%;
+    padding: 30px;
+    border-radius: 4px;
+    color: white;
+    fill: white;
+    background-color: var(--darkColor);
+}
+
+.daily_item-weather {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.daily_item-temperatures {
+    display: flex;
+    gap: 60px;
+    margin: 25px 0 35px 0;
+}
+
+.daily_item-temperatures > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.daily_temp {
+    font-size: 2.4rem;
+}
+
+.daily_temp-max,
+.daily_temp-min {
+    padding: 2px 5px;
+    border-radius: 2px;
+}
+
+.daily_temp-max {
+    background-color: hsl(0, 84%, 44%);
+}
+
+.daily_temp-min {
+    background-color: hsl(212, 84%, 44%);
+}
+
+.daily_extra-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+
+
 /* ----- Utilities ----- */
 .section-subtitle {
     font-size: 2.4rem;
     font-weight: bold;
     line-height: 1;
-    text-align: center;
+    /* text-align: center; */
 }
 
 .icon-container > svg {
