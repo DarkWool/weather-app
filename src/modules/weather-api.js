@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isToday, isTomorrow } from "date-fns";
 import { updateCurrWeather, updateHourlyWeather, updateDailyWeather } from "./ui.js";
 
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
@@ -32,20 +32,25 @@ async function getCoordinates(location) {
 
 
 function formatWeatherData(data, location) {
-    const curr = formatCurrWeather(data.current, location);
-    const hourly = formatHourlyForecast(data.hourly);
-    const daily = formatDailyForecast(data.daily);
+    const timezone = data.timezone;
+
+    const curr = formatCurrWeather(data.current, location, timezone);
+    const hourly = formatHourlyForecast(data.hourly, timezone);
+    const daily = formatDailyForecast(data.daily, timezone);
 
     updateCurrWeather(curr);
     updateHourlyWeather(hourly);
     updateDailyWeather(daily);
 }
 
-function formatCurrWeather(data, location) {
+function formatCurrWeather(data, location, timezone) {
     const weatherDesc = formatWeatherDesc(data.weather[0].description);
+    const currTime = format(getTimezoneDate(data.dt, timezone), "MMMM do, h:mm aaaa");
+    const sunrise = format(getTimezoneDate(data.sunrise, timezone), "h:mm aaaa");
+    const sunset = format(getTimezoneDate(data.sunset, timezone), "h:mm aaaa");
 
     return {
-        "dt": format(new Date(data.dt * 1000), "MMMM do, h:mm aaaa"),
+        "dt": currTime,
         "temp": `${Math.round(data.temp)}°C`,
         weatherDesc,
         "feelsLike": `${Math.round(data.feels_like)}°C`,
@@ -54,19 +59,20 @@ function formatCurrWeather(data, location) {
         "windSpeed": `${data["wind_speed"]}m/s`,
         "visibility": `${data.visibility / 1000}km`,
         "uvi": `${Math.round(data.uvi)}`,
-        "sunrise": format(new Date(data.sunrise * 1000), "h:mm aaaa"),
-        "sunset": format(new Date(data.sunset * 1000), "h:mm aaaa"),
+        sunrise,
+        sunset,
         location,
     }
 }
 
-function formatHourlyForecast(data) {
+function formatHourlyForecast(data, timezone) {
     let i = 0;
     const hourlyFcData = [];
 
     for (const el of data) {
+        const date = format(getTimezoneDate(el.dt, timezone), "h:mm aaaa");
         hourlyFcData.push({
-            "hour": format(new Date(el.dt * 1000), "h:mm aaaa"),
+            "hour": date,
             "temp": `${Math.round(el.temp)}°C`,
             "pop": Math.round(el.pop * 100),
         });
@@ -77,39 +83,23 @@ function formatHourlyForecast(data) {
     return hourlyFcData;
 }
 
-function formatDailyForecast(data) {
-    // let i = 0;
-    // const dailyFcData = [];
-    // for (const day of data) {
-    //     if (i === 0) {
-    //         i++;
-    //         continue;
-    //     }
-
-    //     const weatherDesc = formatWeatherDesc(day.weather[0].description);
-    //     dailyFcData.push({
-    //         "day": format(new Date(day.dt * 1000), "EEEE"),
-    //         weatherDesc,
-    //         "maxTemp": `${Math.round(day.temp.max)}°C`,
-    //         "minTemp": `${Math.round(day.temp.min)}°C`,
-    //         "pop": Math.round(day.pop * 100),
-    //         "humidity": day.humidity,
-    //         "pressure": day.pressure,
-    //         "uvi": day.uvi,
-    //         "windSpeed": day.wind_speed
-    //     });
-
-    //     i++;
-    // }
-
+function formatDailyForecast(data, timezone) {
     const dailyFcData = [];
 
-    // Skip the first iteration since it's today's forecast
-    for (let i = 1; i < 8; i++) {
+    for (let i = 0; i < 8; i++) {
         const weatherDesc = formatWeatherDesc(data[i].weather[0].description);
+        let date = getTimezoneDate(data[i].dt, timezone);
+
+        if (isToday(date)) {
+            date = "Today";
+        } else if (isTomorrow(date)) {
+            date = "Tomorrow";
+        } else {
+            date = format(date, "EEEE");
+        }
 
         dailyFcData.push({
-            "day": format(new Date(data[i].dt * 1000), "EEEE"),
+            "day": date,
             weatherDesc,
             "maxTemp": `${Math.round(data[i].temp.max)}°C`,
             "minTemp": `${Math.round(data[i].temp.min)}°C`,
@@ -128,6 +118,13 @@ function formatDailyForecast(data) {
 // Helpers
 function formatWeatherDesc(desc) {
     return desc[0].toUpperCase() + desc.slice(1);
+}
+
+function getTimezoneDate(datetime, timezone) {
+    let newDate = new Date(datetime * 1000);
+    newDate = new Date(newDate.toLocaleString('en-US', { timeZone: timezone }));
+
+    return newDate;
 }
 
 
