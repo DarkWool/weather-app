@@ -8,7 +8,7 @@ const searchForm = document.getElementsByName("searchWeather")[0];
 const changeUnitsBtn = document.querySelector("[data-units]");
 
 const currTemp = document.getElementsByClassName("weather_temp")[0];
-const currTempDesc = document.getElementsByClassName("weather_temp-desc")[0];
+const currWeatherDesc = document.getElementsByClassName("weather_temp-desc")[0];
 const currCity = document.getElementsByClassName("weather_city")[0];
 const currDateTime = document.getElementsByClassName("weather_dt")[0];
 const currSunrise = document.getElementById("sunriseValue");
@@ -44,7 +44,7 @@ changeUnitsBtn.addEventListener("click", (e) => {
 
 function updateCurrWeather(data) {
     currTemp.textContent = data.temp;
-    currTempDesc.textContent = data.tempDesc;
+    currWeatherDesc.textContent = data.weatherDesc;
     currCity.textContent = data.location;
     currDateTime.textContent = data.dt;
     currSunrise.textContent = data.sunrise;
