@@ -1,5 +1,5 @@
 import { format, isToday, isTomorrow } from "date-fns";
-import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, selectedUnits } from "./ui.js";
+import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, selectedUnits, toggleLoaderVisibility } from "./ui.js";
 
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
 let locationCoords;
@@ -16,8 +16,10 @@ const appUnits = {
         "temp": "°F",
         "windSpeed": "mph"
     }
-}
+};
 
+
+// Functions to fetch data
 async function getCoordinates(location) {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
     const data = await response.json();
@@ -42,6 +44,7 @@ async function fetchWeatherData(coords) {
 }
 
 
+// Functions to format data
 function formatWeatherData(data, location) {
     const timezone = data.timezone;
 
@@ -52,6 +55,8 @@ function formatWeatherData(data, location) {
     updateCurrWeather(curr);
     updateHourlyWeather(hourly);
     updateDailyWeather(daily);
+
+    toggleLoaderVisibility();
 }
 
 function formatCurrWeather(data, location, timezone) {

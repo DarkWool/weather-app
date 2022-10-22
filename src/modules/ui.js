@@ -1,6 +1,5 @@
 import { getCoordinates, fetchWeatherData, locationCoords } from "./weather-api.js";
 
-
 let selectedUnits = "metric";
 
 // Dom cache
@@ -18,11 +17,16 @@ const weatherExtras = document.getElementsByClassName("weather_extra-val");
 const hourlyFcContainer = document.getElementsByClassName("hourly_items")[0];
 const dailyFcContainer = document.getElementsByClassName("daily_items")[0];
 
+// Loader
+const loader = document.getElementsByClassName("loader")[0];
+
 
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const searchValue = e.target.elements["weatherLocation"].value;
+
+    toggleLoaderVisibility();
     getCoordinates(searchValue);
 });
 
@@ -38,6 +42,7 @@ changeUnitsBtn.addEventListener("click", (e) => {
         selectedUnits = "metric";
     }
 
+    toggleLoaderVisibility();
     fetchWeatherData(locationCoords);
 });
 
@@ -199,9 +204,16 @@ function createDailyItemUI(data) {
 }
 
 
+// Loader
+function toggleLoaderVisibility() {
+    loader.classList.toggle("active");
+}
+
+    
 export {
     updateCurrWeather,
     updateHourlyWeather,
     updateDailyWeather,
     selectedUnits,
+    toggleLoaderVisibility
 }

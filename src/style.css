@@ -6,7 +6,7 @@
 }
 
 :root {
-    --darkColor: rgb(13, 16, 22);
+    --darkColor: hsl(203, 39%, 8%);
 }
 
 html {
@@ -49,7 +49,7 @@ ul {
     /* background-image: url("./images/cloudy.jpg"); */
     background-position: center center;
     background-size: cover;
-    background-color: hsla(0, 0%, 0%, 0.5);
+    background-color: hsla(0, 0%, 0%, 0.6);
     background-blend-mode: darken;
 }
 
@@ -138,7 +138,8 @@ ul {
 }
 
 .weather_extra-title {
-    font-weight: 600;
+    font-weight: 500;
+    color: hsl(220, 0%, 85%);
 }
 
 
@@ -247,6 +248,69 @@ ul {
     display: flex;
     align-items: center;
     gap: 8px;
+}
+
+
+
+
+/* ----- Loader ----- */
+.loader,
+.loader_overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.loader {
+    justify-content: center;
+    align-items: center;
+    display: none;
+    color: white;
+}
+
+.loader.active {
+    display: flex;
+}
+
+.loader_content {
+    z-index: 1;
+}
+
+.loader_content > p {
+    font-weight: 300;
+    font-size: 5.6rem;
+    margin-top: 50px;
+}
+
+.loader_dots {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.loader_dots > div {
+    width: 32px;
+    height: 32px;
+    display: block;
+    border-radius: 100%;
+    background-color: hsl(176, 100%, 33%);
+    /* animation: bounceCircle 1s ease-in-out infinite alternate; */
+    /* animation-delay: calc(var(--order) * 300ms); */
+    animation: bounceCircle 0.6s infinite alternate;
+    animation-delay: calc(var(--order) * 200ms);
+    transform: translateY(20px);
+}
+
+@keyframes bounceCircle {
+    to {
+        transform: translateY(-20px);
+    }
+}
+
+.loader_overlay {
+    background-color: hsla(205, 19%, 13%, 0.96);
 }
 
 
