@@ -1,7 +1,11 @@
-import { fetchWeatherData } from "./weather-api.js";
+import { getCoordinates, fetchWeatherData, locationCoords } from "./weather-api.js";
+
+
+let selectedUnits = "metric";
 
 // Dom cache
 const searchForm = document.getElementsByName("searchWeather")[0];
+const changeUnitsBtn = document.querySelector("[data-units]");
 
 const currTemp = document.getElementsByClassName("weather_temp")[0];
 const currTempDesc = document.getElementsByClassName("weather_temp-desc")[0];
@@ -19,9 +23,23 @@ searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const searchValue = e.target.elements["weatherLocation"].value;
-    fetchWeatherData(searchValue);
+    getCoordinates(searchValue);
 });
 
+changeUnitsBtn.addEventListener("click", (e) => {
+    const target = e.target;
+    if (target.dataset.units === "metric") {
+        target.textContent = "Change to °C";
+        target.dataset.units = "imperial";
+        selectedUnits = "imperial";
+    } else {
+        target.textContent = "Change to °F";
+        target.dataset.units = "metric";
+        selectedUnits = "metric";
+    }
+
+    fetchWeatherData(locationCoords);
+});
 
 
 function updateCurrWeather(data) {
@@ -66,6 +84,7 @@ function createHourlyItemUI(data) {
     const iconContainer = document.createElement("span");
     const temp = iconContainer.cloneNode();
     const hour = iconContainer.cloneNode();
+    const pop = document.createElement("span");
     
     container.classList.add("hourly_item");
     iconContainer.classList.add("icon-container");
@@ -74,16 +93,11 @@ function createHourlyItemUI(data) {
     
     temp.textContent = data.temp;
     hour.textContent = data.hour;
+    pop.textContent = data.pop;
     iconContainer.innerHTML = `<svg width="36" height="36" viewBox="0 0 24 24">
     <path d="M9.417 0h6.958l-3.375 8h7l-13 16 4.375-11h-7.375z" /></svg>`;
     
-    container.append(iconContainer, temp, hour);
-
-    if (data.pop >= 20) {
-        const pop = document.createElement("span");
-        pop.textContent = data.pop + "%";
-        temp.after(pop);
-    }
+    container.append(iconContainer, temp, pop, hour);
 
     return container;
 }
@@ -114,7 +128,7 @@ function createDailyItemUI(data) {
                         d="M4.069 13h-4.069v-2h4.069c-.041.328-.069.661-.069 1s.028.672.069 1zm3.034-7.312l-2.881-2.881-1.414 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm11.209 1.414l2.881-2.881-1.414-1.414-2.881 2.881c.528.411 1.002.886 1.414 1.414zm-6.312-3.102c.339 0 .672.028 1 .069v-4.069h-2v4.069c.328-.041.661-.069 1-.069zm0 16c-.339 0-.672-.028-1-.069v4.069h2v-4.069c-.328.041-.661.069-1 .069zm7.931-9c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-3.033 7.312l2.88 2.88 1.415-1.414-2.88-2.88c-.412.528-.886 1.002-1.415 1.414zm-11.21-1.415l-2.88 2.88 1.414 1.414 2.88-2.88c-.528-.411-1.003-.885-1.414-1.414zm6.312-10.897c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z" />
                 </svg>
             </span>
-            <p><span class="fw-600">Rain Prob:</span> ${data.pop}%</p>
+            <p><span class="fw-600">Rain Prob: </span>${data.pop}</p>
         </li>
         <li class="daily_extra-item">
             <span class="icon-container">
@@ -123,7 +137,7 @@ function createDailyItemUI(data) {
                         d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
                 </svg>
             </span>
-            <p><span class="fw-600">Humidity:</span> ${data.humidity}%</p>
+            <p><span class="fw-600">Humidity: </span>${data.humidity}</p>
         </li>
         <li class="daily_extra-item">
             <span class="icon-container">
@@ -132,7 +146,7 @@ function createDailyItemUI(data) {
                         d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
                 </svg>
             </span>
-            <p><span class="fw-600">Pressure:</span> ${data.pressure} hpa</p>
+            <p><span class="fw-600">Pressure: </span>${data.pressure}</p>
         </li>
         <li class="daily_extra-item">
             <span class="icon-container">
@@ -141,7 +155,7 @@ function createDailyItemUI(data) {
                         d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
                 </svg>
             </span>
-            <p><span class="fw-600">Wind Speed:</span> ${data.windSpeed}</p>
+            <p><span class="fw-600">Wind Speed: </span>${data.windSpeed}</p>
         </li>
         <li class="daily_extra-item">
             <span class="icon-container">
@@ -150,7 +164,7 @@ function createDailyItemUI(data) {
                         d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
                 </svg>
             </span>
-            <p><span class="fw-600">UV Index:</span> ${data.uvi}</p>
+            <p><span class="fw-600">UV Index: </span>${data.uvi}</p>
         </li>
     `);
 
@@ -189,4 +203,5 @@ export {
     updateCurrWeather,
     updateHourlyWeather,
     updateDailyWeather,
+    selectedUnits,
 }

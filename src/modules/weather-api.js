@@ -1,32 +1,44 @@
 import { format, isToday, isTomorrow } from "date-fns";
-import { updateCurrWeather, updateHourlyWeather, updateDailyWeather } from "./ui.js";
+import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, selectedUnits } from "./ui.js";
 
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
-
-
-async function fetchWeatherData(location) {
-    // Get latitude, longitude for location
-    const coords = await getCoordinates(location);
-    
-    // Get weather data
-    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=metric&appid=${key}`);
-    const data = await response.json();
-    
-    console.log(coords);
-    console.log(data);
-    
-    formatWeatherData(data, coords.locationName);
+let locationCoords;
+const appUnits = {
+    "pressure": "hPa",
+    "humidity": "%",
+    "visibility": "km",
+    "pop": "%",
+    "metric": {
+        "temp": "°C",
+        "windSpeed": "m/s"
+    },
+    "imperial": {
+        "temp": "°F",
+        "windSpeed": "mph"
+    }
 }
 
 async function getCoordinates(location) {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
     const data = await response.json();
 
-    return {
+    locationCoords = {
         lat: data.coord.lat,
         lon: data.coord.lon,
         locationName: `${data.name}, ${data.sys.country}`,
     }
+
+    fetchWeatherData(locationCoords);
+}
+
+async function fetchWeatherData(coords) {
+    // Get weather data
+    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=${selectedUnits}&appid=${key}`);
+    const data = await response.json();
+
+    console.log(data);
+
+    formatWeatherData(data, coords.locationName);
 }
 
 
@@ -50,14 +62,14 @@ function formatCurrWeather(data, location, timezone) {
 
     return {
         "dt": currTime,
-        "temp": `${Math.round(data.temp)}°C`,
+        "temp": `${Math.round(data.temp)}${appUnits[selectedUnits].temp}`,
         weatherDesc,
-        "feelsLike": `${Math.round(data.feels_like)}°C`,
-        "humidity": `${data.humidity} %`,
-        "pressure": `${data.pressure} hpa`,
-        "windSpeed": `${data["wind_speed"]}m/s`,
-        "visibility": `${data.visibility / 1000}km`,
-        "uvi": `${Math.round(data.uvi)}`,
+        "feelsLike": `${Math.round(data.feels_like)}${appUnits[selectedUnits].temp}`,
+        "humidity": `${data.humidity} ${appUnits.humidity}`,
+        "pressure": `${data.pressure} ${appUnits.pressure}`,
+        "windSpeed": data["wind_speed"] + appUnits[selectedUnits].windSpeed,
+        "visibility": `${data.visibility / 1000}${appUnits.visibility}`,
+        "uvi": Math.round(data.uvi),
         sunrise,
         sunset,
         location,
@@ -72,8 +84,8 @@ function formatHourlyForecast(data, timezone) {
         const date = format(getTimezoneDate(el.dt, timezone), "h:mm aaaa");
         hourlyFcData.push({
             "hour": date,
-            "temp": `${Math.round(el.temp)}°C`,
-            "pop": Math.round(el.pop * 100),
+            "temp": `${Math.round(el.temp)}${appUnits[selectedUnits].temp}`,
+            "pop": formatWeatherPop(el.pop),
         });
 
         i++;
@@ -100,13 +112,13 @@ function formatDailyForecast(data, timezone) {
         dailyFcData.push({
             "day": date,
             weatherDesc,
-            "maxTemp": `${Math.round(data[i].temp.max)}°C`,
-            "minTemp": `${Math.round(data[i].temp.min)}°C`,
-            "pop": Math.round(data[i].pop * 100),
-            "humidity": data[i].humidity,
-            "pressure": data[i].pressure,
-            "uvi": data[i].uvi,
-            "windSpeed": data[i].wind_speed
+            "maxTemp": `${Math.round(data[i].temp.max)}${appUnits[selectedUnits].temp}`,
+            "minTemp": `${Math.round(data[i].temp.min)}${appUnits[selectedUnits].temp}`,
+            "pop": formatWeatherPop(data[i].pop),
+            "humidity": `${data[i].humidity} ${appUnits.humidity}`,
+            "pressure": `${data[i].pressure} ${appUnits.pressure}`,
+            "uvi": Math.round(data[i].uvi),
+            "windSpeed": data[i]["wind_speed"] + appUnits[selectedUnits].windSpeed
         });
     }
 
@@ -119,6 +131,10 @@ function formatWeatherDesc(desc) {
     return desc[0].toUpperCase() + desc.slice(1);
 }
 
+function formatWeatherPop(pop) {
+    return `${Math.round(pop * 100)}${appUnits.pop}`;
+}
+
 function getTimezoneDate(datetime, timezone) {
     let newDate = new Date(datetime * 1000);
     newDate = new Date(newDate.toLocaleString('en-US', { timeZone: timezone }));
@@ -129,4 +145,6 @@ function getTimezoneDate(datetime, timezone) {
 
 export {
     fetchWeatherData,
+    getCoordinates,
+    locationCoords,
 }

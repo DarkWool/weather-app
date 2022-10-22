@@ -9,7 +9,7 @@
 <body>
     <section class="weather">
         <div class="content-margin">
-            <div>
+            <div class="weather_header">
                 <form name="searchWeather" class="weather_searchbar">
                     <label for="weatherLocation">
                         <span class="icon-container searchbar-icon">
@@ -21,6 +21,10 @@
                     </label>
                     <input type="search" id="weatherLocation" name="weatherLocation" class="weather_search-input" placeholder="Search by city or ZIP Code">
                 </form>
+
+                <button type="button" class="primary-btn" data-units="metric">
+                    Change to °F
+                </button>
             </div>
 
             <div class="weather_info">
