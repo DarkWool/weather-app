@@ -19,14 +19,13 @@ async function fetchWeatherData(location) {
 }
 
 async function getCoordinates(location) {
-    const response = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${key}`);
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
     const data = await response.json();
-    console.log(data);
 
     return {
-        locationName: `${data[0].name}, ${data[0].country}`,
-        lat: data[0].lat,
-        lon: data[0].lon,
+        lat: data.coord.lat,
+        lon: data.coord.lon,
+        locationName: `${data.name}, ${data.sys.country}`,
     }
 }
 
