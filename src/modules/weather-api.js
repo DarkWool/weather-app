@@ -21,8 +21,21 @@ const appUnits = {
 
 // Functions to fetch data
 async function getCoordinates(location) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
-    const data = await response.json();
+    let data;
+
+    try {
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
+        data = await response.json();
+
+        if (response.status !== 200) {
+            throw new Error("Unable to found the location");
+        }
+    } catch (err) {
+        toggleLoaderVisibility();
+
+        console.error(err);
+        return Promise.reject(err);
+    }
 
     locationCoords = {
         lat: data.coord.lat,

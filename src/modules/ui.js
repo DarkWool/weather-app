@@ -24,10 +24,18 @@ const loader = document.getElementsByClassName("loader")[0];
 searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
-    const searchValue = e.target.elements["weatherLocation"].value;
+    const form = e.target;
+    const searchInput = form.elements["weatherLocation"];
+    const searchValue = searchInput.value;
+    if (searchValue === "") return;
 
     toggleLoaderVisibility();
-    getCoordinates(searchValue);
+    getCoordinates(searchValue).then(() => {
+        form.reset();
+        hideInvalidMessage(searchInput);
+    }).catch(() => {  
+        showInvalidMessage(searchInput);
+    });
 });
 
 changeUnitsBtn.addEventListener("click", (e) => {
@@ -82,6 +90,7 @@ function updateDailyWeather(dailyData) {
     dailyFcContainer.innerHTML = "";
     dailyFcContainer.append(dailyFragment);
 }
+
 
 // Functions to create UI elements
 function createHourlyItemUI(data) {
@@ -204,12 +213,32 @@ function createDailyItemUI(data) {
 }
 
 
+// Form validation
+function showInvalidMessage(input) {
+	const parentForm = input.closest("form");
+	const errorMsg = parentForm.getElementsByClassName("invalid-input")[0];
+
+	if (errorMsg) {
+		errorMsg.classList.add("active");
+	}
+}
+
+function hideInvalidMessage(input) {
+	const parentForm = input.closest("form");
+	const errorMsg = parentForm.getElementsByClassName("invalid-input")[0];
+
+	if (errorMsg) {
+		errorMsg.classList.remove("active");
+	}
+}
+
+
 // Loader
 function toggleLoaderVisibility() {
     loader.classList.toggle("active");
 }
 
-    
+
 export {
     updateCurrWeather,
     updateHourlyWeather,
