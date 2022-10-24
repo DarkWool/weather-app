@@ -123,9 +123,10 @@ function formatCurrWeather(data, location, timezone) {
 
 function formatHourlyForecast(data, timezone) {
     let i = 0;
+    const data24Hours = data.slice(1, 25);
     const hourlyFcData = [];
 
-    for (const el of data) {
+    for (const el of data24Hours) {
         const date = format(getTimezoneDate(el.dt, timezone), "h:mm aaaa");
         hourlyFcData.push({
             "hour": date,
