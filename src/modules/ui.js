@@ -1,4 +1,4 @@
-import { getWeatherByLocation, fetchWeatherData, locationCoords } from "./weather-api.js";
+import { getWeatherData, getCoordsByLocation, currWeatherCoords } from "./weather-api.js";
 
 let selectedUnits = "metric";
 
@@ -6,13 +6,14 @@ let selectedUnits = "metric";
 const searchForm = document.getElementsByName("searchWeather")[0];
 const changeUnitsBtn = document.querySelector("[data-units]");
 
-const currTemp = document.getElementsByClassName("weather_temp")[0];
-const currWeatherDesc = document.getElementsByClassName("weather_temp-desc")[0];
-const currCity = document.getElementsByClassName("weather_city")[0];
-const currDateTime = document.getElementsByClassName("weather_dt")[0];
-const currSunrise = document.getElementById("sunriseValue");
-const currSunset = document.getElementById("sunsetValue");
-const weatherExtras = document.getElementsByClassName("weather_extra-val");
+const currWeatherInfo = document.getElementsByClassName("weather_info")[0];
+const currTemp = currWeatherInfo.getElementsByClassName("weather_temp")[0];
+const currWeatherDesc = currWeatherInfo.getElementsByClassName("weather_temp-desc")[0];
+const currCity = currWeatherInfo.getElementsByClassName("weather_city")[0];
+const currDateTime = currWeatherInfo.getElementsByClassName("weather_dt")[0];
+const currSunrise = currWeatherInfo.querySelector("[data-curr-sunrise]");
+const currSunset = currWeatherInfo.querySelector("[data-curr-sunset]");
+const weatherExtras = Array.from(document.getElementsByClassName("weather_extra-val"));
 
 const hourlyFcContainer = document.getElementsByClassName("hourly_items")[0];
 const dailyFcContainer = document.getElementsByClassName("daily_items")[0];
@@ -29,7 +30,7 @@ searchForm.addEventListener("submit", (e) => {
     const searchValue = searchInput.value;
     if (searchValue === "") return;
 
-    getWeatherByLocation(searchValue).then(() => {
+    getWeatherData(searchValue, getCoordsByLocation).then(() => {
         form.reset();
         hideInvalidMessage(searchInput);
     }).catch(() => {  
@@ -49,8 +50,7 @@ changeUnitsBtn.addEventListener("click", (e) => {
         selectedUnits = "metric";
     }
 
-    toggleLoaderVisibility();
-    fetchWeatherData(locationCoords);
+    getWeatherData(currWeatherCoords);
 });
 
 

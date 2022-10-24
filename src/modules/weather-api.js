@@ -2,7 +2,7 @@ import { format, isToday, isTomorrow } from "date-fns";
 import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, selectedUnits, toggleLoaderVisibility } from "./ui.js";
 
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
-let locationCoords;
+let currWeatherCoords;
 const appUnits = {
     "pressure": "hPa",
     "humidity": "%",
@@ -19,67 +19,66 @@ const appUnits = {
 };
 
 
-async function getWeatherByCoords(coords) {
-    // Show loader
-    toggleLoaderVisibility();
-
-    const location = await getLocationByCoords(coords);
-    await fetchWeatherData(location);
-}
-
-async function getWeatherByLocation(location) {
+// High order function
+async function getWeatherData(position, callback) {
     // Show loader
     toggleLoaderVisibility();
     
-    const coords = await getCoordsByLocation(location);
-    await fetchWeatherData(coords);
+    try {
+        let coords;
+        if (callback) {
+            coords = await callback(position);
+        } else {
+            coords = position;
+        }
+        
+        const data = await fetchUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=metric&appid=${key}`);
+    
+        formatWeatherData(data, coords.locationName);
+    } catch (err) {
+        return Promise.reject(err);
+    } finally {
+        // Always hide the loader!
+        toggleLoaderVisibility();
+    }
 }
 
 
-// Functions to fetch data
-async function getLocationByCoords(coords) {
-    try {
-        const response = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${coords.lat}&lon=${coords.lon}&limit=1&appid=${key}`);
-        const data = await response.json();
+// Functions to fetch only coords or location information
+async function getLocationByCoords(coord) {
+    const location = await fetchUrl(`http://api.openweathermap.org/geo/1.0/reverse?lat=${coord.lat}&lon=${coord.lon}&limit=1&appid=${key}`);
 
-        if (response.ok === false) {
-            throw new Error("Unable to found the location");
-        }
-        
-        return data;
-    } catch (err) {
-        return Promise.reject(err);
+    return currWeatherCoords = {
+        lat: coord.lat,
+        lon: coord.lon, 
+        locationName: location.name,
     }
 }
 
 async function getCoordsByLocation(location) {
-    let data;
+    const data = await fetchUrl(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
 
-    try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
-        data = await response.json();
-
-        if (response.status !== 200) {
-            throw new Error("Unable to found the location");
-        }
-    } catch (err) {
-        console.error(err);
-        return Promise.reject(err);
-    }
-
-    return locationCoords = {
+    return currWeatherCoords = {
         lat: data.coord.lat,
         lon: data.coord.lon,
         locationName: `${data.name}, ${data.sys.country}`,
     }
 }
 
-async function fetchWeatherData(coords) {
-    // Get weather data
-    const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=${selectedUnits}&appid=${key}`);
-    const data = await response.json();
+async function fetchUrl(url) {
+    try {
+        const response = await fetch(url);
 
-    formatWeatherData(data, coords.locationName);
+        if (response.ok) {            
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error("Unable to find the location");
+        }
+
+    } catch (err) {
+        return Promise.reject(err);
+    }
 }
 
 
@@ -94,9 +93,6 @@ function formatWeatherData(data, location) {
     updateCurrWeather(curr);
     updateHourlyWeather(hourly);
     updateDailyWeather(daily);
-
-    // Hide loader
-    toggleLoaderVisibility();
 }
 
 function formatCurrWeather(data, location, timezone) {
@@ -172,7 +168,7 @@ function formatDailyForecast(data, timezone) {
 }
 
 
-// Helpers
+// Format helpers
 function formatWeatherDesc(desc) {
     return desc[0].toUpperCase() + desc.slice(1);
 }
@@ -190,8 +186,8 @@ function getTimezoneDate(datetime, timezone) {
 
 
 export {
-    locationCoords,
-    fetchWeatherData,
-    getWeatherByLocation,
-    getWeatherByCoords,
+    currWeatherCoords,
+    getWeatherData,
+    getLocationByCoords,
+    getCoordsByLocation
 }

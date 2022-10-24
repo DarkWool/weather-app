@@ -1,13 +1,13 @@
-import { getWeatherByLocation, getWeatherByCoords } from "./weather-api";
+import { getWeatherData, getCoordsByLocation, getLocationByCoords } from "./weather-api";
 
 async function init() {
     try {
         // Load "default" location
-        await getWeatherByLocation("Detroit");
+        await getWeatherData("Detroit", getCoordsByLocation);
 
         // Ask if you can use user's location
         let coords = await getUserCoords();
-        await getWeatherByCoords(coords);  // Update weather
+        await getWeatherData(coords, getLocationByCoords);  // Update weather
     } catch (err) {
         console.error(err);
     }
