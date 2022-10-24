@@ -19,8 +19,40 @@ const appUnits = {
 };
 
 
+async function getWeatherByCoords(coords) {
+    // Show loader
+    toggleLoaderVisibility();
+
+    const location = await getLocationByCoords(coords);
+    await fetchWeatherData(location);
+}
+
+async function getWeatherByLocation(location) {
+    // Show loader
+    toggleLoaderVisibility();
+    
+    const coords = await getCoordsByLocation(location);
+    await fetchWeatherData(coords);
+}
+
+
 // Functions to fetch data
-async function getCoordinates(location) {
+async function getLocationByCoords(coords) {
+    try {
+        const response = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${coords.lat}&lon=${coords.lon}&limit=1&appid=${key}`);
+        const data = await response.json();
+
+        if (response.ok === false) {
+            throw new Error("Unable to found the location");
+        }
+        
+        return data;
+    } catch (err) {
+        return Promise.reject(err);
+    }
+}
+
+async function getCoordsByLocation(location) {
     let data;
 
     try {
@@ -31,27 +63,21 @@ async function getCoordinates(location) {
             throw new Error("Unable to found the location");
         }
     } catch (err) {
-        toggleLoaderVisibility();
-
         console.error(err);
         return Promise.reject(err);
     }
 
-    locationCoords = {
+    return locationCoords = {
         lat: data.coord.lat,
         lon: data.coord.lon,
         locationName: `${data.name}, ${data.sys.country}`,
     }
-
-    fetchWeatherData(locationCoords);
 }
 
 async function fetchWeatherData(coords) {
     // Get weather data
     const response = await fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=${selectedUnits}&appid=${key}`);
     const data = await response.json();
-
-    console.log(data);
 
     formatWeatherData(data, coords.locationName);
 }
@@ -69,6 +95,7 @@ function formatWeatherData(data, location) {
     updateHourlyWeather(hourly);
     updateDailyWeather(daily);
 
+    // Hide loader
     toggleLoaderVisibility();
 }
 
@@ -162,7 +189,8 @@ function getTimezoneDate(datetime, timezone) {
 
 
 export {
-    fetchWeatherData,
-    getCoordinates,
     locationCoords,
+    fetchWeatherData,
+    getWeatherByLocation,
+    getWeatherByCoords,
 }

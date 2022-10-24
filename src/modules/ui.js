@@ -1,4 +1,4 @@
-import { getCoordinates, fetchWeatherData, locationCoords } from "./weather-api.js";
+import { getWeatherByLocation, fetchWeatherData, locationCoords } from "./weather-api.js";
 
 let selectedUnits = "metric";
 
@@ -29,8 +29,7 @@ searchForm.addEventListener("submit", (e) => {
     const searchValue = searchInput.value;
     if (searchValue === "") return;
 
-    toggleLoaderVisibility();
-    getCoordinates(searchValue).then(() => {
+    getWeatherByLocation(searchValue).then(() => {
         form.reset();
         hideInvalidMessage(searchInput);
     }).catch(() => {  
