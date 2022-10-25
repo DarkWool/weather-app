@@ -51,7 +51,7 @@ async function getLocationByCoords(coord) {
     return currWeatherCoords = {
         lat: coord.lat,
         lon: coord.lon, 
-        locationName: location.name,
+        locationName: `${location[0].name}, ${location[0].country}`,
     }
 }
 
