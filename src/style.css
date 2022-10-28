@@ -6,10 +6,13 @@
 }
 
 :root {
-    --darkColor: hsl(203, 40%, 7.5%);
-    /* --darkColor: hsl(203, 50%, 8%); */
+    --darkColor: hsl(203, 40%, 8%);
     --accent: hsl(172, 90%, 48%);
-    /* --accent: hsl(137.9, 100%, 48%); */
+}
+
+::selection {
+    background-color: hsl(18, 100%, 32%);
+    color: white;
 }
 
 html {
@@ -71,7 +74,6 @@ a:hover {
 .weather {
     padding: 40px 0 80px;
     color: white;
-    /* background-image: url("./images/.png"); */
     background-position: center center;
     background-size: cover;
     background-color: hsla(0, 0%, 0%, 0.6);
@@ -208,8 +210,9 @@ a:hover {
     flex-shrink: 0;
 }
 
-.hourly_item > .icon-container {
+.hourly_item > img {
     flex-grow: 1;
+    width: 65px;
 }
 
 .hourly_temp {
@@ -261,6 +264,10 @@ a:hover {
     color: white;
     fill: white;
     background-color: var(--darkColor);
+}
+
+.daily_item > img {
+    max-width: 80px;
 }
 
 .daily_item-temperatures {
@@ -603,6 +610,7 @@ button {
 
 
 
+
 /* ----- Media queries ----- */
 @media screen and (max-width: 1000px) {
     .weather {
@@ -727,6 +735,10 @@ button {
 
     .hourly_item {
         row-gap: 8px;
+    }
+
+    .hourly_item > img {
+        width: 50px;
     }
 
     .hourly_pop > .icon-container {

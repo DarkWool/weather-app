@@ -41,6 +41,16 @@ searchForm.addEventListener("submit", (e) => {
 
 
 function updateCurrWeather(data) {
+    // Set background image based on icon
+    if (data.icon === "09d" || data.icon === "09n") {
+        // The images for the icons "09d"/"09n" are the same as the "10d/n"
+        const iconName = "10" + data.icon.slice(-1);
+        currWeatherSection.style.backgroundImage = `url(${resources.images[iconName]})`;
+    } else {
+        currWeatherSection.style.backgroundImage = `url(${resources.images[data.icon]})`;
+    }
+
+    // Set icon
     currWeatherIcon.src = resources.icons[data.icon];
 
     currTemp.textContent = data.temp;
@@ -135,7 +145,7 @@ function createDailyItemUI(data) {
                     <path d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z" />
                 </svg>
             </span>
-            <p><span class="fw-600">Rain: &nbsp;</span>${data.pop}</p>
+            <p>${data.pop}</p>
         </li>
         <li class="daily_extra-item">
             <p><span class="fw-600">Humidity: &nbsp;</span>${data.humidity}</p>

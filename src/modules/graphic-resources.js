@@ -12,9 +12,10 @@ function importAll(r) {
 }
 
 const icons = importAll(require.context('../images/weather-icons', true, /\.svg$/));
+const images = importAll(require.context('../images/weather-images', true, /\.png$/));
 
-console.log(icons);
 
 export {
     icons,
+    images
 }
