@@ -1,12 +1,12 @@
-import { getWeatherData, getCoordsByLocation, currWeatherCoords } from "./weather-api.js";
-
-let selectedUnits = "metric";
+import { getWeatherData, getCoordsByLocation } from "./weather-api.js";
+import * as resources from "./graphic-resources.js";
 
 // Dom cache
 const searchForm = document.getElementsByName("searchWeather")[0];
-const changeUnitsBtn = document.querySelector("[data-units]");
 
-const currWeatherInfo = document.getElementsByClassName("weather_info")[0];
+const currWeatherSection = document.getElementsByClassName("weather")[0];
+const currWeatherIcon = currWeatherSection.getElementsByClassName("weather_icon")[0];
+const currWeatherInfo = currWeatherSection.getElementsByClassName("weather_info")[0];
 const currTemp = currWeatherInfo.getElementsByClassName("weather_temp")[0];
 const currWeatherDesc = currWeatherInfo.getElementsByClassName("weather_temp-desc")[0];
 const currCity = currWeatherInfo.getElementsByClassName("weather_city")[0];
@@ -33,28 +33,16 @@ searchForm.addEventListener("submit", (e) => {
     getWeatherData(searchValue, getCoordsByLocation).then(() => {
         form.reset();
         hideInvalidMessage(searchInput);
-    }).catch(() => {  
+    }).catch((err) => {  
+        console.error(err)
         showInvalidMessage(searchInput);
     });
 });
 
-changeUnitsBtn.addEventListener("click", (e) => {
-    const target = e.target;
-    if (target.dataset.units === "metric") {
-        target.textContent = "Change to °C";
-        target.dataset.units = "imperial";
-        selectedUnits = "imperial";
-    } else {
-        target.textContent = "Change to °F";
-        target.dataset.units = "metric";
-        selectedUnits = "metric";
-    }
-
-    getWeatherData(currWeatherCoords);
-});
-
 
 function updateCurrWeather(data) {
+    currWeatherIcon.src = resources.icons[data.icon];
+
     currTemp.textContent = data.temp;
     currWeatherDesc.textContent = data.weatherDesc;
     currCity.textContent = data.location;
@@ -94,23 +82,30 @@ function updateDailyWeather(dailyData) {
 // Functions to create UI elements
 function createHourlyItemUI(data) {
     const container = document.createElement("li");
-    const iconContainer = document.createElement("span");
-    const temp = iconContainer.cloneNode();
-    const hour = iconContainer.cloneNode();
-    const pop = document.createElement("span");
+    const icon = document.createElement("img");
+    const temp = document.createElement("span");
+    const hour = temp.cloneNode();
+    const pop = temp.cloneNode();
+    const popIcon = temp.cloneNode();
     
     container.classList.add("hourly_item");
-    iconContainer.classList.add("icon-container");
     temp.classList.add("hourly_temp");
     hour.classList.add("hourly_time");
+    pop.classList.add("hourly_pop");
+    popIcon.classList.add("icon-container");
     
+    icon.src = resources.icons[data.icon];
     temp.textContent = data.temp;
     hour.textContent = data.hour;
     pop.textContent = data.pop;
-    iconContainer.innerHTML = `<svg width="36" height="36" viewBox="0 0 24 24">
-    <path d="M9.417 0h6.958l-3.375 8h7l-13 16 4.375-11h-7.375z" /></svg>`;
+    popIcon.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"> <path
+    d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z" />
+    </svg>`;
+    pop.setAttribute("aria-label", "Probability of rain");
+    pop.setAttribute("title", "Probability of rain");
     
-    container.append(iconContainer, temp, pop, hour);
+    pop.prepend(popIcon);
+    container.append(icon, temp, pop, hour);
 
     return container;
 }
@@ -120,9 +115,9 @@ function createDailyItemUI(data) {
     const dayName = document.createElement("h3");
 
     const weatherContainer = document.createElement("div");
-    const weatherIcon = document.createElement("span");
+    const icon = document.createElement("img");
     const weatherDesc = document.createElement("p");
-
+    
     const temperatures = document.createElement("div");
     const maxTempContainer = document.createElement("div");
     const maxTemp = document.createElement("span");
@@ -134,79 +129,53 @@ function createDailyItemUI(data) {
 
     const extraInfoList = document.createElement("ul");
     extraInfoList.insertAdjacentHTML("beforeend", `
-        <li class="daily_extra-item">
-            <span class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                        d="M4.069 13h-4.069v-2h4.069c-.041.328-.069.661-.069 1s.028.672.069 1zm3.034-7.312l-2.881-2.881-1.414 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm11.209 1.414l2.881-2.881-1.414-1.414-2.881 2.881c.528.411 1.002.886 1.414 1.414zm-6.312-3.102c.339 0 .672.028 1 .069v-4.069h-2v4.069c.328-.041.661-.069 1-.069zm0 16c-.339 0-.672-.028-1-.069v4.069h2v-4.069c-.328.041-.661.069-1 .069zm7.931-9c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-3.033 7.312l2.88 2.88 1.415-1.414-2.88-2.88c-.412.528-.886 1.002-1.415 1.414zm-11.21-1.415l-2.88 2.88 1.414 1.414 2.88-2.88c-.528-.411-1.003-.885-1.414-1.414zm6.312-10.897c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6z" />
+        <li class="daily_extra-item" aria-label="Probability of rain" title="Probability of rain">
+            <span class="icon-container" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z" />
                 </svg>
             </span>
-            <p><span class="fw-600">Rain Prob: </span>${data.pop}</p>
+            <p><span class="fw-600">Rain: &nbsp;</span>${data.pop}</p>
         </li>
         <li class="daily_extra-item">
-            <span class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                        d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
-                </svg>
-            </span>
-            <p><span class="fw-600">Humidity: </span>${data.humidity}</p>
+            <p><span class="fw-600">Humidity: &nbsp;</span>${data.humidity}</p>
         </li>
         <li class="daily_extra-item">
-            <span class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                        d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
-                </svg>
-            </span>
-            <p><span class="fw-600">Pressure: </span>${data.pressure}</p>
+            <p><span class="fw-600">Pressure: &nbsp;</span>${data.pressure}</p>
         </li>
         <li class="daily_extra-item">
-            <span class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                        d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
-                </svg>
-            </span>
-            <p><span class="fw-600">Wind Speed: </span>${data.windSpeed}</p>
+            <p><span class="fw-600">Wind Speed: &nbsp;</span>${data.windSpeed}</p>
         </li>
         <li class="daily_extra-item">
-            <span class="icon-container">
-                <svg width="24" height="24" viewBox="0 0 24 24">
-                    <path
-                        d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" />
-                </svg>
-            </span>
-            <p><span class="fw-600">UV Index: </span>${data.uvi}</p>
+            <p><span class="fw-600">UV Index: &nbsp;</span>${data.uvi}</p>
         </li>
     `);
 
     container.classList.add("daily_item");
     dayName.classList.add("daily_item-title");
     weatherContainer.classList.add("daily_item-weather");
-    weatherIcon.classList.add("icon-container");
     temperatures.classList.add("daily_item-temperatures");
 
     maxTemp.classList.add("daily_temp");
     minTemp.classList.add("daily_temp");
     maxTempLabel.classList.add("daily_temp-max");
     minTempLabel.classList.add("daily_temp-min");
-    
+    extraInfoList.classList.add("daily_extras")
 
     dayName.textContent = data.day;
     weatherDesc.textContent = data.weatherDesc;
     maxTemp.textContent = data.maxTemp;
+    maxTempLabel.textContent = "Max";
     minTemp.textContent = data.minTemp;
-    weatherIcon.innerHTML = `<span class="icon-container"><svg width="48" height="48" viewBox="0 0 24 24">
-    <path d="M20.422 11.516c-.169-3.073-2.75-5.516-5.922-5.516-1.229 0-2.368.37-3.313.999-1.041-1.79-2.974-2.999-5.19-2.999-.468 0-.947.054-1.434.167 1.347 3.833-.383 6.416-4.563 5.812-.006 3.027 2.197 5.468 5.02 5.935.104 2.271 1.996 4.086 4.334 4.086h10.291c2.406 0 4.355-1.916 4.355-4.278 0-2.101-1.545-3.847-3.578-4.206zm-15.016 2.439c-1.285-.192-2.384-.997-2.964-2.125 2.916-.119 5.063-2.846 4.451-5.729 1.259.29 2.282 1.18 2.778 2.346-.635.875-1.031 1.928-1.094 3.069-1.419.251-2.588 1.186-3.171 2.439z" /></svg></span>`;
+    minTempLabel.textContent = "Min";
+    icon.src = resources.icons[data.icon];
 
-
-    weatherContainer.append(weatherIcon, weatherDesc);
+    weatherContainer.append(weatherDesc);
     minTempContainer.append(minTemp, minTempLabel);
     maxTempContainer.append(maxTemp, maxTempLabel);
     temperatures.append(maxTempContainer, minTempContainer);
 
-    container.append(dayName, weatherContainer, temperatures, extraInfoList);
+    container.append(dayName, icon, weatherContainer, temperatures, extraInfoList);
 
     return container;
 }
@@ -242,6 +211,5 @@ export {
     updateCurrWeather,
     updateHourlyWeather,
     updateDailyWeather,
-    selectedUnits,
     toggleLoaderVisibility
 }

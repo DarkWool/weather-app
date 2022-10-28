@@ -23,6 +23,10 @@ module.exports = {
 					filename: 'images/img_[hash][ext][query]'
 				}
 			},
+			{
+				test: /\.html$/i,
+				loader: "html-loader",
+			},
 		],
 	},
 };

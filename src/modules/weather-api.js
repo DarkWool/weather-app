@@ -1,5 +1,7 @@
 import { format, isToday, isTomorrow } from "date-fns";
-import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, selectedUnits, toggleLoaderVisibility } from "./ui.js";
+import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, toggleLoaderVisibility } from "./ui.js";
+import { unitSystem } from "./dropdown.js";
+
 
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
 let currWeatherCoords;
@@ -32,8 +34,8 @@ async function getWeatherData(position, callback) {
             coords = position;
         }
         
-        const data = await fetchUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=metric&appid=${key}`);
-    
+        const data = await fetchUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=${unitSystem}&appid=${key}`);
+
         formatWeatherData(data, coords.locationName);
     } catch (err) {
         return Promise.reject(err);
@@ -103,17 +105,18 @@ function formatCurrWeather(data, location, timezone) {
 
     return {
         "dt": currTime,
-        "temp": `${Math.round(data.temp)}${appUnits[selectedUnits].temp}`,
+        "temp": `${Math.round(data.temp)}${appUnits[unitSystem].temp}`,
         weatherDesc,
-        "feelsLike": `${Math.round(data.feels_like)}${appUnits[selectedUnits].temp}`,
+        "feelsLike": `${Math.round(data.feels_like)}${appUnits[unitSystem].temp}`,
         "humidity": `${data.humidity} ${appUnits.humidity}`,
         "pressure": `${data.pressure} ${appUnits.pressure}`,
-        "windSpeed": data["wind_speed"] + appUnits[selectedUnits].windSpeed,
+        "windSpeed": data["wind_speed"] + appUnits[unitSystem].windSpeed,
         "visibility": `${data.visibility / 1000}${appUnits.visibility}`,
         "uvi": Math.round(data.uvi),
         sunrise,
         sunset,
         location,
+        "icon": data.weather[0].icon,
     }
 }
 
@@ -126,8 +129,9 @@ function formatHourlyForecast(data, timezone) {
         const date = format(getTimezoneDate(el.dt, timezone), "h:mm aaaa");
         hourlyFcData.push({
             "hour": date,
-            "temp": `${Math.round(el.temp)}${appUnits[selectedUnits].temp}`,
+            "temp": `${Math.round(el.temp)}${appUnits[unitSystem].temp}`,
             "pop": formatWeatherPop(el.pop),
+            "icon": el.weather[0].icon
         });
 
         i++;
@@ -154,13 +158,14 @@ function formatDailyForecast(data, timezone) {
         dailyFcData.push({
             "day": date,
             weatherDesc,
-            "maxTemp": `${Math.round(data[i].temp.max)}${appUnits[selectedUnits].temp}`,
-            "minTemp": `${Math.round(data[i].temp.min)}${appUnits[selectedUnits].temp}`,
+            "maxTemp": `${Math.round(data[i].temp.max)}${appUnits[unitSystem].temp}`,
+            "minTemp": `${Math.round(data[i].temp.min)}${appUnits[unitSystem].temp}`,
             "pop": formatWeatherPop(data[i].pop),
-            "humidity": `${data[i].humidity} ${appUnits.humidity}`,
+            "humidity": `${data[i].humidity}${appUnits.humidity}`,
             "pressure": `${data[i].pressure} ${appUnits.pressure}`,
             "uvi": Math.round(data[i].uvi),
-            "windSpeed": data[i]["wind_speed"] + appUnits[selectedUnits].windSpeed
+            "windSpeed": data[i]["wind_speed"] + appUnits[unitSystem].windSpeed,
+            "icon": data[i].weather[0].icon
         });
     }
 
