@@ -21,8 +21,8 @@ async function init() {
 }
 
 async function loadStoredLocation() {
-    const userCoords = JSON.parse(localStorage.getItem("userCoords"));
     try {
+        const userCoords = JSON.parse(localStorage.getItem("userCoords"));
         if (userCoords) {
             // If NO error is returned from getWeatherData return true;
             await getWeatherData(userCoords, getLocationByCoords);
