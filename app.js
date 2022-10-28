@@ -3414,7 +3414,7 @@ async function getWeatherData(position, callback) {
 
 // Functions to fetch only coords or location information
 async function getLocationByCoords(coord) {
-    const location = await fetchUrl(`http://api.openweathermap.org/geo/1.0/reverse?lat=${coord.lat}&lon=${coord.lon}&limit=1&appid=${key}`);
+    const location = await fetchUrl(`https://api.openweathermap.org/geo/1.0/reverse?lat=${coord.lat}&lon=${coord.lon}&limit=1&appid=${key}`);
 
     return currWeatherCoords = {
         lat: coord.lat,
