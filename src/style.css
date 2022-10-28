@@ -3,6 +3,7 @@
 *, *::before, *::after {
     box-sizing: border-box;
     margin: 0;
+    scrollbar-width: thin;
 }
 
 :root {
@@ -18,6 +19,7 @@
 html {
     font-size: 10px;
     height: 100%;
+    scrollbar-width: thin;
 }
 
 body {
