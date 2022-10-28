@@ -1,4 +1,4 @@
-import { format, isToday, isTomorrow } from "date-fns";
+import { format } from "date-fns";
 import { updateCurrWeather, updateHourlyWeather, updateDailyWeather, toggleLoaderVisibility } from "./ui.js";
 import { unitSystem } from "./dropdown.js";
 
@@ -146,14 +146,7 @@ function formatDailyForecast(data, timezone) {
     for (let i = 0; i < 8; i++) {
         const weatherDesc = formatWeatherDesc(data[i].weather[0].description);
         let date = getTimezoneDate(data[i].dt, timezone);
-
-        if (isToday(date)) {
-            date = "Today";
-        } else if (isTomorrow(date)) {
-            date = "Tomorrow";
-        } else {
-            date = format(date, "EEEE");
-        }
+        date = format(date, "EEEE");
 
         dailyFcData.push({
             "day": date,
