@@ -2869,21 +2869,24 @@ function cleanEscapedString(input) {
   return matched[1].replace(doubleQuoteRegExp, "'");
 }
 ;// CONCATENATED MODULE: ./src/modules/graphic-resources.js
-
 function importAll(r) {
-    const obj = {};
-    const regex = /\w+/;
+  const obj = {};
+  const regex = /\w+/;
 
-    r.keys().forEach((key) => {
-        const result = key.match(regex)
-        return obj[result] = r(key);
-    });
+  r.keys().forEach((key) => {
+    const result = key.match(regex);
+    return (obj[result] = r(key));
+  });
 
-    return obj;
+  return obj;
 }
 
-const icons = importAll(__webpack_require__(687));
-const graphic_resources_images = importAll(__webpack_require__(641));
+const icons = importAll(
+  __webpack_require__(687)
+);
+const graphic_resources_images = importAll(
+  __webpack_require__(641)
+);
 
 
 
@@ -2895,15 +2898,20 @@ const graphic_resources_images = importAll(__webpack_require__(641));
 const searchForm = document.getElementsByName("searchWeather")[0];
 
 const currWeatherSection = document.getElementsByClassName("weather")[0];
-const currWeatherIcon = currWeatherSection.getElementsByClassName("weather_icon")[0];
-const currWeatherInfo = currWeatherSection.getElementsByClassName("weather_info")[0];
+const currWeatherIcon =
+  currWeatherSection.getElementsByClassName("weather_icon")[0];
+const currWeatherInfo =
+  currWeatherSection.getElementsByClassName("weather_info")[0];
 const currTemp = currWeatherInfo.getElementsByClassName("weather_temp")[0];
-const currWeatherDesc = currWeatherInfo.getElementsByClassName("weather_temp-desc")[0];
+const currWeatherDesc =
+  currWeatherInfo.getElementsByClassName("weather_temp-desc")[0];
 const currCity = currWeatherInfo.getElementsByClassName("weather_city")[0];
 const currDateTime = currWeatherInfo.getElementsByClassName("weather_dt")[0];
 const currSunrise = currWeatherInfo.querySelector("[data-curr-sunrise]");
 const currSunset = currWeatherInfo.querySelector("[data-curr-sunset]");
-const weatherExtras = Array.from(document.getElementsByClassName("weather_extra-val"));
+const weatherExtras = Array.from(
+  document.getElementsByClassName("weather_extra-val")
+);
 
 const hourlyFcContainer = document.getElementsByClassName("hourly_items")[0];
 const dailyFcContainer = document.getElementsByClassName("daily_items")[0];
@@ -2911,199 +2919,207 @@ const dailyFcContainer = document.getElementsByClassName("daily_items")[0];
 // Loader
 const loader = document.getElementsByClassName("loader")[0];
 
-
 searchForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const form = e.target;
-    const searchInput = form.elements["weatherLocation"];
-    const searchValue = searchInput.value;
-    if (searchValue === "") return;
+  const form = e.target;
+  const searchInput = form.elements["weatherLocation"];
+  const searchValue = searchInput.value;
+  if (searchValue === "") return;
 
-    getWeatherData(searchValue, getCoordsByLocation).then(() => {
-        form.reset();
-        hideInvalidMessage(searchInput);
-    }).catch((err) => {  
-        console.error(err)
-        showInvalidMessage(searchInput);
+  getWeatherData(searchValue, getCoordsByLocation)
+    .then(() => {
+      form.reset();
+      hideInvalidMessage(searchInput);
+    })
+    .catch((err) => {
+      console.error(err);
+      showInvalidMessage(searchInput);
     });
 });
 
-
 function updateCurrWeather(data) {
-    // Set background image based on icon
-    if (data.icon === "09d" || data.icon === "09n") {
-        // The images for the icons "09d"/"09n" are the same as the "10d/n"
-        const iconName = "10" + data.icon.slice(-1);
-        currWeatherSection.style.backgroundImage = `url(${graphic_resources_images[iconName]})`;
-    } else {
-        currWeatherSection.style.backgroundImage = `url(${graphic_resources_images[data.icon]})`;
-    }
+  // Set background image based on icon
+  if (data.icon === "09d" || data.icon === "09n") {
+    // The images for the icons "09d"/"09n" are the same as the "10d/n"
+    const iconName = "10" + data.icon.slice(-1);
+    currWeatherSection.style.backgroundImage = `url(${graphic_resources_images[iconName]})`;
+  } else {
+    currWeatherSection.style.backgroundImage = `url(${
+      graphic_resources_images[data.icon]
+    })`;
+  }
 
-    // Set icon
-    currWeatherIcon.src = icons[data.icon];
+  // Set icon
+  currWeatherIcon.src = icons[data.icon];
 
-    currTemp.textContent = data.temp;
-    currWeatherDesc.textContent = data.weatherDesc;
-    currCity.textContent = data.location;
-    currDateTime.textContent = data.dt;
-    currSunrise.textContent = data.sunrise;
-    currSunset.textContent = data.sunset;
+  currTemp.textContent = data.temp;
+  currWeatherDesc.textContent = data.weatherDesc;
+  currCity.textContent = data.location;
+  currDateTime.textContent = data.dt;
+  currSunrise.textContent = data.sunrise;
+  currSunset.textContent = data.sunset;
 
-    weatherExtras[0].textContent = data.feelsLike;
-    weatherExtras[1].textContent = data.humidity;
-    weatherExtras[2].textContent = data.pressure;
-    weatherExtras[3].textContent = data.windSpeed;
-    weatherExtras[4].textContent = data.visibility;
-    weatherExtras[5].textContent = data.uvi;
+  weatherExtras[0].textContent = data.feelsLike;
+  weatherExtras[1].textContent = data.humidity;
+  weatherExtras[2].textContent = data.pressure;
+  weatherExtras[3].textContent = data.windSpeed;
+  weatherExtras[4].textContent = data.visibility;
+  weatherExtras[5].textContent = data.uvi;
 }
 
 function updateHourlyWeather(hourlyData) {
-    const hourlyFragment = document.createDocumentFragment();
-    for (const item of hourlyData) {
-        hourlyFragment.append(createHourlyItemUI(item));
-    }
+  const hourlyFragment = document.createDocumentFragment();
+  for (const item of hourlyData) {
+    hourlyFragment.append(createHourlyItemUI(item));
+  }
 
-    hourlyFcContainer.innerHTML = "";
-    hourlyFcContainer.append(hourlyFragment);
+  hourlyFcContainer.innerHTML = "";
+  hourlyFcContainer.append(hourlyFragment);
 }
 
 function updateDailyWeather(dailyData) {
-    const dailyFragment = document.createDocumentFragment();
-    for (const dayData of dailyData) {
-        dailyFragment.append(createDailyItemUI(dayData));
-    }
+  const dailyFragment = document.createDocumentFragment();
+  for (const dayData of dailyData) {
+    dailyFragment.append(createDailyItemUI(dayData));
+  }
 
-    dailyFcContainer.innerHTML = "";
-    dailyFcContainer.append(dailyFragment);
+  dailyFcContainer.innerHTML = "";
+  dailyFcContainer.append(dailyFragment);
 }
-
 
 // Functions to create UI elements
 function createHourlyItemUI(data) {
-    const container = document.createElement("li");
-    const icon = document.createElement("img");
-    const temp = document.createElement("span");
-    const hour = temp.cloneNode();
-    const pop = temp.cloneNode();
-    const popIcon = temp.cloneNode();
-    
-    container.classList.add("hourly_item");
-    temp.classList.add("hourly_temp");
-    hour.classList.add("hourly_time");
-    pop.classList.add("hourly_pop");
-    popIcon.classList.add("icon-container");
-    
-    icon.src = icons[data.icon];
-    temp.textContent = data.temp;
-    hour.textContent = data.hour;
-    pop.textContent = data.pop;
-    popIcon.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"> <path
+  const container = document.createElement("li");
+  const icon = document.createElement("img");
+  const temp = document.createElement("span");
+  const hour = temp.cloneNode();
+  const pop = temp.cloneNode();
+  const popIcon = temp.cloneNode();
+
+  container.classList.add("hourly_item");
+  temp.classList.add("hourly_temp");
+  hour.classList.add("hourly_time");
+  pop.classList.add("hourly_pop");
+  popIcon.classList.add("icon-container");
+
+  icon.src = icons[data.icon];
+  temp.textContent = data.temp;
+  hour.textContent = data.hour;
+  pop.textContent = data.pop;
+  popIcon.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"> <path
     d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z" />
     </svg>`;
-    pop.setAttribute("aria-label", "Probability of rain");
-    pop.setAttribute("title", "Probability of rain");
-    
-    pop.prepend(popIcon);
-    container.append(icon, temp, pop, hour);
+  pop.setAttribute("aria-label", "Probability of rain");
+  pop.setAttribute("title", "Probability of rain");
 
-    return container;
+  pop.prepend(popIcon);
+  container.append(icon, temp, pop, hour);
+
+  return container;
 }
 
 function createDailyItemUI(data) {
-    const container = document.createElement("li");
-    const dayName = document.createElement("h3");
+  const container = document.createElement("li");
+  const dayName = document.createElement("h3");
 
-    const weatherContainer = document.createElement("div");
-    const icon = document.createElement("img");
-    const weatherDesc = document.createElement("p");
-    
-    const temperatures = document.createElement("div");
-    const maxTempContainer = document.createElement("div");
-    const maxTemp = document.createElement("span");
-    const maxTempLabel = document.createElement("span");
-    
-    const minTempContainer = document.createElement("div");
-    const minTemp = document.createElement("span");
-    const minTempLabel = document.createElement("span");
+  const weatherContainer = document.createElement("div");
+  const icon = document.createElement("img");
+  const weatherDesc = document.createElement("p");
 
-    const extraInfoList = document.createElement("ul");
-    extraInfoList.insertAdjacentHTML("beforeend", `
-        <li class="daily_extra-item" aria-label="Probability of rain" title="Probability of rain">
-            <span class="icon-container" aria-hidden="true">
-                <svg width="20" height="20" viewBox="0 0 24 24">
-                    <path d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z" />
-                </svg>
-            </span>
-            <p>${data.pop}</p>
-        </li>
-        <li class="daily_extra-item">
-            <p><span class="fw-600">Humidity: &nbsp;</span>${data.humidity}</p>
-        </li>
-        <li class="daily_extra-item">
-            <p><span class="fw-600">Pressure: &nbsp;</span>${data.pressure}</p>
-        </li>
-        <li class="daily_extra-item">
-            <p><span class="fw-600">Wind Speed: &nbsp;</span>${data.windSpeed}</p>
-        </li>
-        <li class="daily_extra-item">
-            <p><span class="fw-600">UV Index: &nbsp;</span>${data.uvi}</p>
-        </li>
-    `);
+  const temperatures = document.createElement("div");
+  const maxTempContainer = document.createElement("div");
+  const maxTemp = document.createElement("span");
+  const maxTempLabel = document.createElement("span");
 
-    container.classList.add("daily_item");
-    dayName.classList.add("daily_item-title");
-    weatherContainer.classList.add("daily_item-weather");
-    temperatures.classList.add("daily_item-temperatures");
+  const minTempContainer = document.createElement("div");
+  const minTemp = document.createElement("span");
+  const minTempLabel = document.createElement("span");
 
-    maxTemp.classList.add("daily_temp");
-    minTemp.classList.add("daily_temp");
-    maxTempLabel.classList.add("daily_temp-max");
-    minTempLabel.classList.add("daily_temp-min");
-    extraInfoList.classList.add("daily_extras")
+  const extraInfoList = document.createElement("ul");
+  extraInfoList.insertAdjacentHTML(
+    "beforeend",
+    `
+      <li class="daily_extra-item" aria-label="Probability of rain" title="Probability of rain">
+          <span class="icon-container" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24">
+                  <path d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z" />
+              </svg>
+          </span>
+          <p>${data.pop}</p>
+      </li>
+      <li class="daily_extra-item">
+          <p><span class="fw-600">Humidity: &nbsp;</span>${data.humidity}</p>
+      </li>
+      <li class="daily_extra-item">
+          <p><span class="fw-600">Pressure: &nbsp;</span>${data.pressure}</p>
+      </li>
+      <li class="daily_extra-item">
+          <p><span class="fw-600">Wind Speed: &nbsp;</span>${data.windSpeed}</p>
+      </li>
+      <li class="daily_extra-item">
+          <p><span class="fw-600">UV Index: &nbsp;</span>${data.uvi}</p>
+      </li>
+    `
+  );
 
-    dayName.textContent = data.day;
-    weatherDesc.textContent = data.weatherDesc;
-    maxTemp.textContent = data.maxTemp;
-    maxTempLabel.textContent = "Max";
-    minTemp.textContent = data.minTemp;
-    minTempLabel.textContent = "Min";
-    icon.src = icons[data.icon];
+  container.classList.add("daily_item");
+  dayName.classList.add("daily_item-title");
+  weatherContainer.classList.add("daily_item-weather");
+  temperatures.classList.add("daily_item-temperatures");
 
-    weatherContainer.append(weatherDesc);
-    minTempContainer.append(minTemp, minTempLabel);
-    maxTempContainer.append(maxTemp, maxTempLabel);
-    temperatures.append(maxTempContainer, minTempContainer);
+  maxTemp.classList.add("daily_temp");
+  minTemp.classList.add("daily_temp");
+  maxTempLabel.classList.add("daily_temp-max");
+  minTempLabel.classList.add("daily_temp-min");
+  extraInfoList.classList.add("daily_extras");
 
-    container.append(dayName, icon, weatherContainer, temperatures, extraInfoList);
+  dayName.textContent = data.day;
+  weatherDesc.textContent = data.weatherDesc;
+  maxTemp.textContent = data.maxTemp;
+  maxTempLabel.textContent = "Max";
+  minTemp.textContent = data.minTemp;
+  minTempLabel.textContent = "Min";
+  icon.src = icons[data.icon];
 
-    return container;
+  weatherContainer.append(weatherDesc);
+  minTempContainer.append(minTemp, minTempLabel);
+  maxTempContainer.append(maxTemp, maxTempLabel);
+  temperatures.append(maxTempContainer, minTempContainer);
+
+  container.append(
+    dayName,
+    icon,
+    weatherContainer,
+    temperatures,
+    extraInfoList
+  );
+
+  return container;
 }
-
 
 // Form validation
 function showInvalidMessage(input) {
-	const parentForm = input.closest("form");
-	const errorMsg = parentForm.getElementsByClassName("invalid-input")[0];
+  const parentForm = input.closest("form");
+  const errorMsg = parentForm.getElementsByClassName("invalid-input")[0];
 
-	if (errorMsg) {
-		errorMsg.classList.add("active");
-	}
+  if (errorMsg) {
+    errorMsg.classList.add("active");
+  }
 }
 
 function hideInvalidMessage(input) {
-	const parentForm = input.closest("form");
-	const errorMsg = parentForm.getElementsByClassName("invalid-input")[0];
+  const parentForm = input.closest("form");
+  const errorMsg = parentForm.getElementsByClassName("invalid-input")[0];
 
-	if (errorMsg) {
-		errorMsg.classList.remove("active");
-	}
+  if (errorMsg) {
+    errorMsg.classList.remove("active");
+  }
 }
-
 
 // Loader
 function toggleLoaderVisibility() {
-    loader.classList.toggle("active");
+  loader.classList.toggle("active");
 }
 
 
@@ -3116,84 +3132,86 @@ const dropdownBtns = document.getElementsByClassName("dropdown-btn");
 const changeUnitsBtn = dropdownBtns[0];
 const changeUnitsDropdown = document.getElementsByClassName("dropdown")[0];
 
-
 // Init
-for (let drop of dropdownBtns) {
-    drop.addEventListener("click", e => {
-        const currDropdown = e.currentTarget.closest(".dropdown-container");
-        if (currDropdown.classList.contains("active")) {
-            closeDropdown(currDropdown);
-        } else {
-            e.currentTarget.setAttribute("aria-expanded", "true");
-            currDropdown.classList.add("active");
-            document.addEventListener("click", detectClickOutsideDropdown);
-            closeOtherDropdowns(currDropdown);
-        } 
-    });
+for (const drop of dropdownBtns) {
+  drop.addEventListener("click", (e) => {
+    const currDropdown = e.currentTarget.closest(".dropdown-container");
+    if (currDropdown.classList.contains("active")) {
+      closeDropdown(currDropdown);
+    } else {
+      e.currentTarget.setAttribute("aria-expanded", "true");
+      currDropdown.classList.add("active");
+      document.addEventListener("click", detectClickOutsideDropdown);
+      closeOtherDropdowns(currDropdown);
+    }
+  });
 }
 
-changeUnitsDropdown.addEventListener("click", e => {
-    try {
-        const target = e.target.closest("[data-units]");
-        const units = target.dataset.units;
-        if (!units || units === unitSystem) return;
+changeUnitsDropdown.addEventListener("click", (e) => {
+  try {
+    const target = e.target.closest("[data-units]");
+    const units = target.dataset.units;
+    if (!units || units === unitSystem) return;
 
-        if (units === "imperial") {
-            unitSystem = "imperial";
-            changeUnitsBtn.firstElementChild.textContent = "°F";
-        } else {
-            unitSystem = "metric";
-            changeUnitsBtn.firstElementChild.textContent = "°C";
-        }
-    
-        getWeatherData(currWeatherCoords);
-    } catch (err) {
-        console.log(err);
-        return;
-    } finally {
-        closeDropdown(e.currentTarget.closest(".dropdown-container"));
+    if (units === "imperial") {
+      unitSystem = "imperial";
+      changeUnitsBtn.firstElementChild.textContent = "°F";
+    } else {
+      unitSystem = "metric";
+      changeUnitsBtn.firstElementChild.textContent = "°C";
     }
+
+    getWeatherData(currWeatherCoords);
+  } catch (err) {
+    console.log(err);
+    return;
+  } finally {
+    closeDropdown(e.currentTarget.closest(".dropdown-container"));
+  }
 });
 
-
 function detectClickOutsideDropdown(e) {
-    // If you click inside the dropdown then do nothing
-    const target = e.target;
-    const isDropdownBtn = target.closest(".dropdown-btn");
-    if (target.closest(".dropdown") || isDropdownBtn != null) return;
-    
-    closeAllDropdowns();
+  // If you click inside the dropdown then do nothing
+  const target = e.target;
+  const isDropdownBtn = target.closest(".dropdown-btn");
+  if (target.closest(".dropdown") || isDropdownBtn != null) return;
+
+  closeAllDropdowns();
 }
 
 // Helpers
 function closeDropdown(dropdown) {
-    dropdown.classList.remove("active");
-    document.removeEventListener("click", detectClickOutsideDropdown);
+  dropdown.classList.remove("active");
+  document.removeEventListener("click", detectClickOutsideDropdown);
 
-    const button = dropdown.getElementsByClassName("dropdown-btn")[0];
-    button.setAttribute("aria-expanded", "false");
+  const button = dropdown.getElementsByClassName("dropdown-btn")[0];
+  button.setAttribute("aria-expanded", "false");
 }
 
 function closeOtherDropdowns(currDropdown) {
-    const activeDropdowns = document.querySelectorAll(".dropdown-container.active");
-    for (const dropdown of activeDropdowns) {
-        if (dropdown === currDropdown) return;
+  const activeDropdowns = document.querySelectorAll(
+    ".dropdown-container.active"
+  );
+  for (const dropdown of activeDropdowns) {
+    if (dropdown === currDropdown) return;
 
-        dropdown.classList.remove("active");
+    dropdown.classList.remove("active");
 
-        const button = dropdown.getElementsByClassName("dropdown-btn")[0];
-        button.setAttribute("aria-expanded", "false");
-    }
+    const button = dropdown.getElementsByClassName("dropdown-btn")[0];
+    button.setAttribute("aria-expanded", "false");
+  }
 }
 
 function closeAllDropdowns() {
-    const activeDropdowns = document.querySelectorAll(".dropdown-container.active");
-    for (const dropdown of activeDropdowns) {
-        dropdown.classList.remove("active");
+  const activeDropdowns = document.querySelectorAll(
+    ".dropdown-container.active"
+  );
+  for (const dropdown of activeDropdowns) {
+    dropdown.classList.remove("active");
 
-        const button = dropdown.getElementsByClassName("dropdown-btn")[0];
-        button.setAttribute("aria-expanded", "false");
-    }
+    const button = dropdown.getElementsByClassName("dropdown-btn")[0];
+    button.setAttribute("aria-expanded", "false");
+  }
 }
 
 
@@ -3203,184 +3221,184 @@ function closeAllDropdowns() {
 
 
 
-
 const key = "e0a910cf9f2a35b506f136dacc4f145f";
 let currWeatherCoords;
 const appUnits = {
-    "pressure": "hPa",
-    "humidity": "%",
-    "visibility": "km",
-    "pop": "%",
-    "metric": {
-        "temp": "°C",
-        "windSpeed": "m/s"
-    },
-    "imperial": {
-        "temp": "°F",
-        "windSpeed": "mph"
-    }
+  pressure: "hPa",
+  humidity: "%",
+  visibility: "km",
+  pop: "%",
+  metric: {
+    temp: "°C",
+    windSpeed: "m/s",
+  },
+  imperial: {
+    temp: "°F",
+    windSpeed: "mph",
+  },
 };
-
 
 // High order function
 async function getWeatherData(position, callback) {
-    // Show loader
-    toggleLoaderVisibility();
-    
-    try {
-        let coords;
-        if (callback) {
-            coords = await callback(position);
-        } else {
-            coords = position;
-        }
-        
-        const data = await fetchUrl(`https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=${unitSystem}&appid=${key}`);
+  // Show loader
+  toggleLoaderVisibility();
 
-        formatWeatherData(data, coords.locationName);
-    } catch (err) {
-        return Promise.reject(err);
-    } finally {
-        // Always hide the loader!
-        toggleLoaderVisibility();
+  try {
+    let coords;
+    if (callback) {
+      coords = await callback(position);
+    } else {
+      coords = position;
     }
-}
 
+    const data = await fetchUrl(
+      `https://api.openweathermap.org/data/3.0/onecall?lat=${coords.lat}&lon=${coords.lon}&exclude=minutely,alerts&units=${unitSystem}&appid=${key}`
+    );
+
+    formatWeatherData(data, coords.locationName);
+  } catch (err) {
+    return Promise.reject(err);
+  } finally {
+    // Always hide the loader!
+    toggleLoaderVisibility();
+  }
+}
 
 // Functions to fetch only coords or location information
 async function getLocationByCoords(coord) {
-    const location = await fetchUrl(`https://api.openweathermap.org/geo/1.0/reverse?lat=${coord.lat}&lon=${coord.lon}&limit=1&appid=${key}`);
+  const location = await fetchUrl(
+    `https://api.openweathermap.org/geo/1.0/reverse?lat=${coord.lat}&lon=${coord.lon}&limit=1&appid=${key}`
+  );
 
-    return currWeatherCoords = {
-        lat: coord.lat,
-        lon: coord.lon, 
-        locationName: `${location[0].name}, ${location[0].country}`,
-    }
+  return (currWeatherCoords = {
+    lat: coord.lat,
+    lon: coord.lon,
+    locationName: `${location[0].name}, ${location[0].country}`,
+  });
 }
 
 async function getCoordsByLocation(location) {
-    const data = await fetchUrl(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`);
+  const data = await fetchUrl(
+    `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${key}`
+  );
 
-    return currWeatherCoords = {
-        lat: data.coord.lat,
-        lon: data.coord.lon,
-        locationName: `${data.name}, ${data.sys.country}`,
-    }
+  return (currWeatherCoords = {
+    lat: data.coord.lat,
+    lon: data.coord.lon,
+    locationName: `${data.name}, ${data.sys.country}`,
+  });
 }
 
 async function fetchUrl(url) {
-    try {
-        const response = await fetch(url);
+  try {
+    const response = await fetch(url);
 
-        if (response.ok) {            
-            const data = await response.json();
-            return data;
-        } else {
-            throw new Error("Unable to find the location");
-        }
-
-    } catch (err) {
-        return Promise.reject(err);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      throw new Error("Unable to find the location");
     }
+  } catch (err) {
+    return Promise.reject(err);
+  }
 }
-
 
 // Functions to format data
 function formatWeatherData(data, location) {
-    const timezone = data.timezone;
+  const timezone = data.timezone;
 
-    const curr = formatCurrWeather(data.current, location, timezone);
-    const hourly = formatHourlyForecast(data.hourly, timezone);
-    const daily = formatDailyForecast(data.daily, timezone);
+  const curr = formatCurrWeather(data.current, location, timezone);
+  const hourly = formatHourlyForecast(data.hourly, timezone);
+  const daily = formatDailyForecast(data.daily, timezone);
 
-    updateCurrWeather(curr);
-    updateHourlyWeather(hourly);
-    updateDailyWeather(daily);
+  updateCurrWeather(curr);
+  updateHourlyWeather(hourly);
+  updateDailyWeather(daily);
 }
 
 function formatCurrWeather(data, location, timezone) {
-    const weatherDesc = formatWeatherDesc(data.weather[0].description);
-    const currTime = format(getTimezoneDate(data.dt, timezone), "MMMM do, h:mm aaaa");
-    const sunrise = format(getTimezoneDate(data.sunrise, timezone), "h:mm aaaa");
-    const sunset = format(getTimezoneDate(data.sunset, timezone), "h:mm aaaa");
+  const weatherDesc = formatWeatherDesc(data.weather[0].description);
+  const currTime = format(
+    getTimezoneDate(data.dt, timezone),
+    "MMMM do, h:mm aaaa"
+  );
+  const sunrise = format(getTimezoneDate(data.sunrise, timezone), "h:mm aaaa");
+  const sunset = format(getTimezoneDate(data.sunset, timezone), "h:mm aaaa");
 
-    return {
-        "dt": currTime,
-        "temp": `${Math.round(data.temp)}${appUnits[unitSystem].temp}`,
-        weatherDesc,
-        "feelsLike": `${Math.round(data.feels_like)}${appUnits[unitSystem].temp}`,
-        "humidity": `${data.humidity} ${appUnits.humidity}`,
-        "pressure": `${data.pressure} ${appUnits.pressure}`,
-        "windSpeed": data["wind_speed"] + appUnits[unitSystem].windSpeed,
-        "visibility": `${data.visibility / 1000}${appUnits.visibility}`,
-        "uvi": Math.round(data.uvi),
-        sunrise,
-        sunset,
-        location,
-        "icon": data.weather[0].icon,
-    }
+  return {
+    dt: currTime,
+    temp: `${Math.round(data.temp)}${appUnits[unitSystem].temp}`,
+    weatherDesc,
+    feelsLike: `${Math.round(data.feels_like)}${appUnits[unitSystem].temp}`,
+    humidity: `${data.humidity} ${appUnits.humidity}`,
+    pressure: `${data.pressure} ${appUnits.pressure}`,
+    windSpeed: data["wind_speed"] + appUnits[unitSystem].windSpeed,
+    visibility: `${data.visibility / 1000}${appUnits.visibility}`,
+    uvi: Math.round(data.uvi),
+    sunrise,
+    sunset,
+    location,
+    icon: data.weather[0].icon,
+  };
 }
 
 function formatHourlyForecast(data, timezone) {
-    let i = 0;
-    const data24Hours = data.slice(1, 25);
-    const hourlyFcData = [];
+  const data24Hours = data.slice(1, 25);
+  const forecastData = [];
 
-    for (const el of data24Hours) {
-        const date = format(getTimezoneDate(el.dt, timezone), "h:mm aaaa");
-        hourlyFcData.push({
-            "hour": date,
-            "temp": `${Math.round(el.temp)}${appUnits[unitSystem].temp}`,
-            "pop": formatWeatherPop(el.pop),
-            "icon": el.weather[0].icon
-        });
+  for (const hourData of data24Hours) {
+    const date = format(getTimezoneDate(hourData.dt, timezone), "h:mm aaaa");
+    forecastData.push({
+      hour: date,
+      temp: `${Math.round(hourData.temp)}${appUnits[unitSystem].temp}`,
+      pop: formatWeatherPop(hourData.pop),
+      icon: hourData.weather[0].icon,
+    });
+  }
 
-        i++;
-    }
-
-    return hourlyFcData;
+  return forecastData;
 }
 
 function formatDailyForecast(data, timezone) {
-    const dailyFcData = [];
+  const dailyFcData = [];
 
-    for (let i = 0; i < 8; i++) {
-        const weatherDesc = formatWeatherDesc(data[i].weather[0].description);
-        let date = getTimezoneDate(data[i].dt, timezone);
-        date = format(date, "EEEE");
+  for (let i = 0; i < 8; i++) {
+    const weatherDesc = formatWeatherDesc(data[i].weather[0].description);
+    let date = getTimezoneDate(data[i].dt, timezone);
+    date = format(date, "EEEE");
 
-        dailyFcData.push({
-            "day": date,
-            weatherDesc,
-            "maxTemp": `${Math.round(data[i].temp.max)}${appUnits[unitSystem].temp}`,
-            "minTemp": `${Math.round(data[i].temp.min)}${appUnits[unitSystem].temp}`,
-            "pop": formatWeatherPop(data[i].pop),
-            "humidity": `${data[i].humidity}${appUnits.humidity}`,
-            "pressure": `${data[i].pressure} ${appUnits.pressure}`,
-            "uvi": Math.round(data[i].uvi),
-            "windSpeed": data[i]["wind_speed"] + appUnits[unitSystem].windSpeed,
-            "icon": data[i].weather[0].icon
-        });
-    }
+    dailyFcData.push({
+      day: date,
+      weatherDesc,
+      maxTemp: `${Math.round(data[i].temp.max)}${appUnits[unitSystem].temp}`,
+      minTemp: `${Math.round(data[i].temp.min)}${appUnits[unitSystem].temp}`,
+      pop: formatWeatherPop(data[i].pop),
+      humidity: `${data[i].humidity}${appUnits.humidity}`,
+      pressure: `${data[i].pressure} ${appUnits.pressure}`,
+      uvi: Math.round(data[i].uvi),
+      windSpeed: data[i]["wind_speed"] + appUnits[unitSystem].windSpeed,
+      icon: data[i].weather[0].icon,
+    });
+  }
 
-    return dailyFcData;
+  return dailyFcData;
 }
-
 
 // Format helpers
 function formatWeatherDesc(desc) {
-    return desc[0].toUpperCase() + desc.slice(1);
+  return desc[0].toUpperCase() + desc.slice(1);
 }
 
 function formatWeatherPop(pop) {
-    return `${Math.round(pop * 100)}${appUnits.pop}`;
+  return `${Math.round(pop * 100)}${appUnits.pop}`;
 }
 
 function getTimezoneDate(datetime, timezone) {
-    let newDate = new Date(datetime * 1000);
-    newDate = new Date(newDate.toLocaleString('en-US', { timeZone: timezone }));
+  let newDate = new Date(datetime * 1000);
+  newDate = new Date(newDate.toLocaleString("en-US", { timeZone: timezone }));
 
-    return newDate;
+  return newDate;
 }
 
 
@@ -3389,58 +3407,61 @@ function getTimezoneDate(datetime, timezone) {
 
 
 async function init() {
-    // Try to load user's location from localStorage
-    const isWeatherLoaded = await loadStoredLocation();
-    if (isWeatherLoaded === true) return;
+  // Try to load user's location from localStorage
+  const isWeatherLoaded = await loadStoredLocation();
+  if (isWeatherLoaded === true) return;
 
-    try {
-        // Load a "sample" location
-        await getWeatherData("Detroit", getCoordsByLocation);
-    
-        // Ask if you can use user's location so you can replace current weather data
-        let userCoords = await getUserCoords();
-        await getWeatherData(userCoords, getLocationByCoords);
+  try {
+    // Load a "sample" location
+    await getWeatherData("Detroit", getCoordsByLocation);
 
-        // Save the user coords to localStorage
-        localStorage.setItem("userCoords", JSON.stringify(userCoords));
-    } catch (err) {
-        console.error(err);
-    }
+    // Ask if you can use user's location so you can replace current weather data
+    const userCoords = await getUserCoords();
+    await getWeatherData(userCoords, getLocationByCoords);
+
+    // Save the user coords to localStorage
+    localStorage.setItem("userCoords", JSON.stringify(userCoords));
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 async function loadStoredLocation() {
-    try {
-        const userCoords = JSON.parse(localStorage.getItem("userCoords"));
-        if (userCoords) {
-            // If NO error is returned from getWeatherData return true;
-            await getWeatherData(userCoords, getLocationByCoords);
-            return true;
-        }
-    } catch {
-        return false;
+  try {
+    const userCoords = JSON.parse(localStorage.getItem("userCoords"));
+    if (userCoords) {
+      // If NO error is returned from getWeatherData return true;
+      await getWeatherData(userCoords, getLocationByCoords);
+      return true;
     }
+  } catch {
+    return false;
+  }
 }
 
 // Use geolocation to get the coords
 async function getUserCoords() {
-    let result;
+  let result;
 
-    if (navigator.geolocation) {
-        result = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const coords = {
-                    "lat": position.coords.latitude,
-                    "lon": position.coords.longitude
-                };
+  if (navigator.geolocation) {
+    result = await new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const coords = {
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          };
 
-                resolve(coords);
-            }, (err) => {
-                reject(err);
-            });
-        });
-    }
+          resolve(coords);
+        },
+        (err) => {
+          reject(err);
+        }
+      );
+    });
+  }
 
-    return result;
+  return result;
 }
 
 
@@ -3456,6 +3477,7 @@ const logo_open_weather_namespaceObject = __webpack_require__.p + "images/img_45
 
 
 init();
+
 })();
 
 /******/ })()

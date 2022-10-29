@@ -1,210 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather App</title>
-</head>
-<body>
+  </head>
+
+  <body>
     <section class="weather">
-        <div class="content-margin">
-            <div class="weather_header">
-                <form name="searchWeather" class="weather_searchbar">
-                    <label for="weatherLocation">
-                        <span class="icon-container searchbar-icon">
-                            <svg style="width:24px;height:24px" viewBox="0 0 24 24">
-                                <path
-                                    d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-                            </svg>
-                        </span>
-                    </label>
-                    <input type="search" id="weatherLocation" name="weatherLocation" class="weather_search-input" placeholder="Search by city or ZIP Code">
-                    <div class="invalid-input">
-                        Location not found!, try searching by City or ZIP code
-                    </div>
-                </form>
-
-                <div class="dropdown-container">
-                    <button type="button" class="dropdown-btn header-btn" title="Change unit system" aria-expanded="false">
-                        <span>°C</span>
-                        <span class="icon-container">
-                            <svg viewBox="0 0 24 24">
-                                <path fill="#fff" d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z" />
-                            </svg>
-                        </span>
-                    </button>
-    
-                    <div class="dropdown">
-                        <ul>
-                            <li class="dropdown_item">
-                                <button type="button" data-units="metric">Celsius <span class="fw-600">°C</span></button>
-                            </li>
-                            <li class="dropdown_item">
-                                <button type="button" data-units="imperial">Fahrenheit <span class="fw-600">°F</span></button>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+      <div class="content-margin">
+        <div class="weather_header">
+          <form name="searchWeather" class="weather_searchbar">
+            <label for="weatherLocation">
+              <span class="icon-container searchbar-icon">
+                <svg style="width: 24px; height: 24px" viewBox="0 0 24 24">
+                  <path
+                    d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"
+                  />
+                </svg>
+              </span>
+            </label>
+            <input
+              type="search"
+              id="weatherLocation"
+              name="weatherLocation"
+              class="weather_search-input"
+              placeholder="Search by city or ZIP Code"
+            />
+            <div class="invalid-input">
+              Location not found!, try searching by City or ZIP code
             </div>
+          </form>
 
-            <div class="weather_info">
-                <div>
-                    <img class="weather_icon" width="100">
-                    <h2 class="weather_temp"></h2>
-                    <p class="weather_temp-desc"></p>
-                    <p class="weather_city"></p>
-                    <p class="weather_dt"></p>
-                </div>
+          <div class="dropdown-container">
+            <button
+              type="button"
+              class="dropdown-btn header-btn"
+              title="Change unit system"
+              aria-expanded="false"
+            >
+              <span>°C</span>
+              <span class="icon-container">
+                <svg viewBox="0 0 24 24">
+                  <path
+                    fill="#fff"
+                    d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"
+                  />
+                </svg>
+              </span>
+            </button>
 
-                <div class="weather_sun-info">
-                    <div>
-                        <span class="icon-container">
-                            <svg fill="white" width="32" height="32" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 23h-24v-2h24v2zm-24-6v2h4.069c-.041-.328-.069-.661-.069-1s.028-.672.069-1h-4.069zm7.103-5.312l-2.881-2.881-1.415 1.414 2.881 2.881c.412-.529.886-1.003 1.415-1.414zm3.897-1.688h2v-5h3l-4-4-4 4h3v5zm8.931 7c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-7.931-5c-3.314 0-6 2.686-6 6 0 .341.035.674.09 1h11.82c.055-.326.09-.659.09-1 0-3.314-2.686-6-6-6zm7.778-3.193l-2.881 2.881c.528.411 1.003.886 1.414 1.414l2.881-2.881-1.414-1.414z" />
-                            </svg>
-                        </span>
-
-                        <span data-curr-sunrise=""></span>
-                        <span class="fw-600">Sunrise</span>
-                    </div>
-
-                    <div>
-                        <span class="icon-container">
-                            <svg fill="white" width="32" height="32" viewBox="0 0 24 24">
-                                <path
-                                    d="M24 23h-24v-2h24v2zm-24-6v2h4.069c-.041-.328-.069-.661-.069-1s.028-.672.069-1h-4.069zm7.103-5.312l-2.881-2.881-1.415 1.414 2.881 2.881c.412-.529.886-1.003 1.415-1.414zm5.897-10.688h-2v5h-3l4 4 4-4h-3v-5zm6.931 16c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-7.931-5c-3.314 0-6 2.686-6 6 0 .341.035.674.09 1h11.82c.055-.326.09-.659.09-1 0-3.314-2.686-6-6-6zm7.778-3.193l-2.881 2.881c.528.411 1.003.886 1.414 1.414l2.881-2.881-1.414-1.414z" />
-                            </svg>
-                        </span>
-
-                        <span data-curr-sunset=""></span>
-                        <span class="fw-600">Sunset</span>
-                    </div>
-                </div>
+            <div class="dropdown">
+              <ul>
+                <li class="dropdown_item">
+                  <button type="button" data-units="metric">
+                    Celsius <span class="fw-600">°C</span>
+                  </button>
+                </li>
+                <li class="dropdown_item">
+                  <button type="button" data-units="imperial">
+                    Fahrenheit <span class="fw-600">°F</span>
+                  </button>
+                </li>
+              </ul>
             </div>
-
-            <div class="weather_extras">
-                <div class="weather_extra-block">
-                    <span class="icon-container">
-                        <svg fill="white" width="32" height="32" viewBox="0 0 131.24 260.79" aria-hidden="true">
-                            <path
-                                d="M79.21 99.95V31.54c0-5.73-2.35-10.94-6.13-14.73-3.78-3.78-9-6.13-14.73-6.13s-10.94 2.35-14.73 6.13c-3.78 3.79-6.13 9-6.13 14.73V163.1c-14.45 7.41-24.33 22.46-24.33 39.82 0 24.69 20.01 44.71 44.71 44.71s44.72-20.02 44.72-44.71c0-16.97-9.45-31.73-23.38-39.31V99.95zm-12.23 71.36c13.73 3.95 23.78 16.6 23.78 31.61 0 18.16-14.72 32.88-32.89 32.88-18.16 0-32.89-14.72-32.89-32.88 0-15.01 10.05-27.66 23.79-31.61V55.52c0-11.31 18.21-10.86 18.21 0v115.79zm34.19-134.88v-9.68h25.23c2.67 0 4.84 2.16 4.84 4.84 0 2.67-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84s-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84s-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84s-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84 0 2.68-2.17 4.84-4.84 4.84h-25.23zM89.9 154.71c15.58 10.37 25.84 28.09 25.84 48.21 0 31.96-25.91 57.87-57.87 57.87C25.91 260.79 0 234.88 0 202.92c0-20.53 10.69-38.57 26.81-48.84V31.54c0-8.68 3.55-16.56 9.26-22.28C41.79 3.55 49.67 0 58.35 0c8.68 0 16.57 3.55 22.28 9.26 5.72 5.72 9.27 13.6 9.27 22.28v123.17z">
-                            </path>
-                        </svg>
-                    </span>
-                    <p class="weather_extra-val"></p>
-                    <p class="weather_extra-title">Feels like</p>
-                </div>
-
-                <div class="weather_extra-block">
-                    <span class="icon-container">
-                        <svg fill="white" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z">
-                            </path>
-                        </svg>
-                    </span>
-                    <p class="weather_extra-val"></p>
-                    <p class="weather_extra-title">Humidity</p>
-                </div>
-
-                <div class="weather_extra-block">
-                    <span class="icon-container">
-                        <svg fill="white" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M24 13c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 2.583.816 5.042 2.205 7h4.358c.93 1.647 3.015 3 5.438 3s4.508-1.353 5.438-3h4.357c1.388-1.958 2.204-4.417 2.204-7zm-4.492-6.436l-2.203 2.203c-.316-.396-.676-.755-1.071-1.071l2.203-2.203c.382.328.742.688 1.071 1.071zm-4.431-2.964c.479.156.948.352 1.399.581l-1.193 2.878c-.443-.245-.913-.44-1.399-.58l1.193-2.879zm-3.835-.46c.256-.02.51-.029.758-.029s.502.01.758.029v3.115c-.252-.027-.506-.042-.758-.042s-.506.014-.758.042v-3.115zm-.371 10.441l1.129-5.294 1.129 5.293c.721.398 1.207 1.165 1.207 2.045 0 1.29-1.045 2.336-2.336 2.336-1.29 0-2.336-1.046-2.336-2.336 0-.88.486-1.646 1.207-2.044zm-1.986-9.969l1.205 2.875c-.486.141-.954.338-1.397.585l-1.205-2.874c.45-.231.919-.427 1.397-.586zm-3.322 1.881l2.203 2.203c-.395.316-.754.675-1.071 1.071l-2.202-2.203c.328-.383.688-.743 1.07-1.071zm-2.964 4.432c.156-.479.351-.948.58-1.399l2.879 1.192c-.246.443-.44.913-.58 1.399l-2.879-1.192zm15.893 1.091c-.147-.483-.35-.95-.603-1.39l2.86-1.238c.235.445.438.912.602 1.39l-2.859 1.238z" />
-                        </svg>
-                    </span>
-                    <p class="weather_extra-val"></p>
-                    <p class="weather_extra-title">Pressure</p>
-                </div>
-
-                <div class="weather_extra-block">
-                    <span class="icon-container">
-                        <svg fill="white" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M11 10h-11v-2h11c.552 0 1-.448 1-1s-.448-1-1-1c-.403 0-.747.242-.905.587l-1.749-.956c.499-.965 1.494-1.631 2.654-1.631 3.971 0 3.969 6 0 6zm7 7c0-1.656-1.344-3-3-3h-15v2h15c.552 0 1 .448 1 1s-.448 1-1 1c-.403 0-.747-.242-.905-.587l-1.749.956c.499.965 1.494 1.631 2.654 1.631 1.656 0 3-1.344 3-3zm1.014-7.655c.082-.753.712-1.345 1.486-1.345.827 0 1.5.673 1.5 1.5s-.673 1.5-1.5 1.5h-20.5v2h20.5c1.932 0 3.5-1.568 3.5-3.5s-1.568-3.5-3.5-3.5c-1.624 0-2.977 1.116-3.372 2.617l1.886.728z" />
-                        </svg>
-                    </span>
-                    <p class="weather_extra-val"></p>
-                    <p class="weather_extra-title">Wind Speed</p>
-                </div>
-
-                <div class="weather_extra-block">
-                    <span class="icon-container">
-                        <svg fill="white" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z" />
-                        </svg>
-                    </span>
-                    <p class="weather_extra-val"></p>
-                    <p class="weather_extra-title">Visibility</p>
-                </div>
-
-                <div class="weather_extra-block">
-                    <span class="icon-container">
-                        <svg fill="white" width="32" height="32" viewBox="0 0 24 24" aria-hidden="true">
-                            <path
-                                d="M21.192 4.221l-2.881 2.881c-.411-.528-.886-1.003-1.414-1.414l2.881-2.881 1.414 1.414zm-8.192-.152v-4.069h-2v4.069c.328-.041.661-.069 1-.069s.672.028 1 .069zm6.931 6.931c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-1.931 1c0 .341-.035.674-.09 1h-11.82c-.055-.326-.09-.659-.09-1 0-3.314 2.686-6 6-6s6 2.686 6 6zm-10.897-6.312l-2.881-2.881-1.414 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm-7.103 5.312v2h4.069c-.041-.328-.069-.661-.069-1s.028-.672.069-1h-4.069zm9.062 11.667c-1.205-1.195-1.364-1.893-.312-3.26.37-.481.53-.942.53-1.4 0-.959-.699-1.906-1.623-3.006l-1.449 1.379c1.375 1.6 1.247 1.772.26 3.184-.316.453-.446.908-.446 1.355 0 1.159.876 2.259 1.665 3.082l1.375-1.334zm8.688 0c-1.205-1.195-1.364-1.893-.312-3.26.37-.481.529-.942.529-1.4 0-.959-.699-1.906-1.622-3.006l-1.448 1.379c1.375 1.6 1.246 1.772.26 3.184-.316.453-.446.908-.446 1.355 0 1.159.876 2.259 1.665 3.082l1.374-1.334zm-4.396 0c-1.205-1.195-1.364-1.893-.312-3.26.37-.481.529-.942.529-1.4 0-.959-.699-1.906-1.622-3.006l-1.448 1.379c1.375 1.6 1.246 1.772.26 3.184-.316.453-.446.908-.446 1.355 0 1.159.876 2.259 1.665 3.082l1.374-1.334z" />
-                        </svg>
-                    </span>
-                    <p class="weather_extra-val"></p>
-                    <p class="weather_extra-title">UV Index</p>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div class="weather_info">
+          <div>
+            <img class="weather_icon" width="100" />
+            <h2 class="weather_temp"></h2>
+            <p class="weather_temp-desc"></p>
+            <p class="weather_city"></p>
+            <p class="weather_dt"></p>
+          </div>
+
+          <div class="weather_sun-info">
+            <div>
+              <span class="icon-container">
+                <svg fill="white" width="32" height="32" viewBox="0 0 24 24">
+                  <path
+                    d="M24 23h-24v-2h24v2zm-24-6v2h4.069c-.041-.328-.069-.661-.069-1s.028-.672.069-1h-4.069zm7.103-5.312l-2.881-2.881-1.415 1.414 2.881 2.881c.412-.529.886-1.003 1.415-1.414zm3.897-1.688h2v-5h3l-4-4-4 4h3v5zm8.931 7c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-7.931-5c-3.314 0-6 2.686-6 6 0 .341.035.674.09 1h11.82c.055-.326.09-.659.09-1 0-3.314-2.686-6-6-6zm7.778-3.193l-2.881 2.881c.528.411 1.003.886 1.414 1.414l2.881-2.881-1.414-1.414z"
+                  />
+                </svg>
+              </span>
+
+              <span data-curr-sunrise=""></span>
+              <span class="fw-600">Sunrise</span>
+            </div>
+
+            <div>
+              <span class="icon-container">
+                <svg fill="white" width="32" height="32" viewBox="0 0 24 24">
+                  <path
+                    d="M24 23h-24v-2h24v2zm-24-6v2h4.069c-.041-.328-.069-.661-.069-1s.028-.672.069-1h-4.069zm7.103-5.312l-2.881-2.881-1.415 1.414 2.881 2.881c.412-.529.886-1.003 1.415-1.414zm5.897-10.688h-2v5h-3l4 4 4-4h-3v-5zm6.931 16c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-7.931-5c-3.314 0-6 2.686-6 6 0 .341.035.674.09 1h11.82c.055-.326.09-.659.09-1 0-3.314-2.686-6-6-6zm7.778-3.193l-2.881 2.881c.528.411 1.003.886 1.414 1.414l2.881-2.881-1.414-1.414z"
+                  />
+                </svg>
+              </span>
+
+              <span data-curr-sunset=""></span>
+              <span class="fw-600">Sunset</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="weather_extras">
+          <div class="weather_extra-block">
+            <span class="icon-container">
+              <svg
+                fill="white"
+                width="32"
+                height="32"
+                viewBox="0 0 131.24 260.79"
+                aria-hidden="true"
+              >
+                <path
+                  d="M79.21 99.95V31.54c0-5.73-2.35-10.94-6.13-14.73-3.78-3.78-9-6.13-14.73-6.13s-10.94 2.35-14.73 6.13c-3.78 3.79-6.13 9-6.13 14.73V163.1c-14.45 7.41-24.33 22.46-24.33 39.82 0 24.69 20.01 44.71 44.71 44.71s44.72-20.02 44.72-44.71c0-16.97-9.45-31.73-23.38-39.31V99.95zm-12.23 71.36c13.73 3.95 23.78 16.6 23.78 31.61 0 18.16-14.72 32.88-32.89 32.88-18.16 0-32.89-14.72-32.89-32.88 0-15.01 10.05-27.66 23.79-31.61V55.52c0-11.31 18.21-10.86 18.21 0v115.79zm34.19-134.88v-9.68h25.23c2.67 0 4.84 2.16 4.84 4.84 0 2.67-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84s-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84s-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84s-2.17 4.84-4.84 4.84h-25.23zm0 26.43v-9.68h25.23c2.67 0 4.84 2.17 4.84 4.84 0 2.68-2.17 4.84-4.84 4.84h-25.23zM89.9 154.71c15.58 10.37 25.84 28.09 25.84 48.21 0 31.96-25.91 57.87-57.87 57.87C25.91 260.79 0 234.88 0 202.92c0-20.53 10.69-38.57 26.81-48.84V31.54c0-8.68 3.55-16.56 9.26-22.28C41.79 3.55 49.67 0 58.35 0c8.68 0 16.57 3.55 22.28 9.26 5.72 5.72 9.27 13.6 9.27 22.28v123.17z"
+                ></path>
+              </svg>
+            </span>
+            <p class="weather_extra-val"></p>
+            <p class="weather_extra-title">Feels like</p>
+          </div>
+
+          <div class="weather_extra-block">
+            <span class="icon-container">
+              <svg
+                fill="white"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M12 0c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z"
+                ></path>
+              </svg>
+            </span>
+            <p class="weather_extra-val"></p>
+            <p class="weather_extra-title">Humidity</p>
+          </div>
+
+          <div class="weather_extra-block">
+            <span class="icon-container">
+              <svg
+                fill="white"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M24 13c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 2.583.816 5.042 2.205 7h4.358c.93 1.647 3.015 3 5.438 3s4.508-1.353 5.438-3h4.357c1.388-1.958 2.204-4.417 2.204-7zm-4.492-6.436l-2.203 2.203c-.316-.396-.676-.755-1.071-1.071l2.203-2.203c.382.328.742.688 1.071 1.071zm-4.431-2.964c.479.156.948.352 1.399.581l-1.193 2.878c-.443-.245-.913-.44-1.399-.58l1.193-2.879zm-3.835-.46c.256-.02.51-.029.758-.029s.502.01.758.029v3.115c-.252-.027-.506-.042-.758-.042s-.506.014-.758.042v-3.115zm-.371 10.441l1.129-5.294 1.129 5.293c.721.398 1.207 1.165 1.207 2.045 0 1.29-1.045 2.336-2.336 2.336-1.29 0-2.336-1.046-2.336-2.336 0-.88.486-1.646 1.207-2.044zm-1.986-9.969l1.205 2.875c-.486.141-.954.338-1.397.585l-1.205-2.874c.45-.231.919-.427 1.397-.586zm-3.322 1.881l2.203 2.203c-.395.316-.754.675-1.071 1.071l-2.202-2.203c.328-.383.688-.743 1.07-1.071zm-2.964 4.432c.156-.479.351-.948.58-1.399l2.879 1.192c-.246.443-.44.913-.58 1.399l-2.879-1.192zm15.893 1.091c-.147-.483-.35-.95-.603-1.39l2.86-1.238c.235.445.438.912.602 1.39l-2.859 1.238z"
+                />
+              </svg>
+            </span>
+            <p class="weather_extra-val"></p>
+            <p class="weather_extra-title">Pressure</p>
+          </div>
+
+          <div class="weather_extra-block">
+            <span class="icon-container">
+              <svg
+                fill="white"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M11 10h-11v-2h11c.552 0 1-.448 1-1s-.448-1-1-1c-.403 0-.747.242-.905.587l-1.749-.956c.499-.965 1.494-1.631 2.654-1.631 3.971 0 3.969 6 0 6zm7 7c0-1.656-1.344-3-3-3h-15v2h15c.552 0 1 .448 1 1s-.448 1-1 1c-.403 0-.747-.242-.905-.587l-1.749.956c.499.965 1.494 1.631 2.654 1.631 1.656 0 3-1.344 3-3zm1.014-7.655c.082-.753.712-1.345 1.486-1.345.827 0 1.5.673 1.5 1.5s-.673 1.5-1.5 1.5h-20.5v2h20.5c1.932 0 3.5-1.568 3.5-3.5s-1.568-3.5-3.5-3.5c-1.624 0-2.977 1.116-3.372 2.617l1.886.728z"
+                />
+              </svg>
+            </span>
+            <p class="weather_extra-val"></p>
+            <p class="weather_extra-title">Wind Speed</p>
+          </div>
+
+          <div class="weather_extra-block">
+            <span class="icon-container">
+              <svg
+                fill="white"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M15 12c0 1.657-1.343 3-3 3s-3-1.343-3-3c0-.199.02-.393.057-.581 1.474.541 2.927-.882 2.405-2.371.174-.03.354-.048.538-.048 1.657 0 3 1.344 3 3zm-2.985-7c-7.569 0-12.015 6.551-12.015 6.551s4.835 7.449 12.015 7.449c7.733 0 11.985-7.449 11.985-7.449s-4.291-6.551-11.985-6.551zm-.015 12c-2.761 0-5-2.238-5-5 0-2.761 2.239-5 5-5 2.762 0 5 2.239 5 5 0 2.762-2.238 5-5 5z"
+                />
+              </svg>
+            </span>
+            <p class="weather_extra-val"></p>
+            <p class="weather_extra-title">Visibility</p>
+          </div>
+
+          <div class="weather_extra-block">
+            <span class="icon-container">
+              <svg
+                fill="white"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  d="M21.192 4.221l-2.881 2.881c-.411-.528-.886-1.003-1.414-1.414l2.881-2.881 1.414 1.414zm-8.192-.152v-4.069h-2v4.069c.328-.041.661-.069 1-.069s.672.028 1 .069zm6.931 6.931c.041.328.069.661.069 1s-.028.672-.069 1h4.069v-2h-4.069zm-1.931 1c0 .341-.035.674-.09 1h-11.82c-.055-.326-.09-.659-.09-1 0-3.314 2.686-6 6-6s6 2.686 6 6zm-10.897-6.312l-2.881-2.881-1.414 1.414 2.881 2.881c.411-.529.885-1.003 1.414-1.414zm-7.103 5.312v2h4.069c-.041-.328-.069-.661-.069-1s.028-.672.069-1h-4.069zm9.062 11.667c-1.205-1.195-1.364-1.893-.312-3.26.37-.481.53-.942.53-1.4 0-.959-.699-1.906-1.623-3.006l-1.449 1.379c1.375 1.6 1.247 1.772.26 3.184-.316.453-.446.908-.446 1.355 0 1.159.876 2.259 1.665 3.082l1.375-1.334zm8.688 0c-1.205-1.195-1.364-1.893-.312-3.26.37-.481.529-.942.529-1.4 0-.959-.699-1.906-1.622-3.006l-1.448 1.379c1.375 1.6 1.246 1.772.26 3.184-.316.453-.446.908-.446 1.355 0 1.159.876 2.259 1.665 3.082l1.374-1.334zm-4.396 0c-1.205-1.195-1.364-1.893-.312-3.26.37-.481.529-.942.529-1.4 0-.959-.699-1.906-1.622-3.006l-1.448 1.379c1.375 1.6 1.246 1.772.26 3.184-.316.453-.446.908-.446 1.355 0 1.159.876 2.259 1.665 3.082l1.374-1.334z"
+                />
+              </svg>
+            </span>
+            <p class="weather_extra-val"></p>
+            <p class="weather_extra-title">UV Index</p>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="hourly-fc">
-        <div class="content-margin">
-            <h2 class="section-subtitle">Hourly Forecast</h2>
-            <div class="pos-relative">
-                <ul class="hourly_items">
-                </ul>
-                <div class="overflow-shadow-dark"></div>
-            </div>
+      <div class="content-margin">
+        <h2 class="section-subtitle">Hourly Forecast</h2>
+        <div class="pos-relative">
+          <ul class="hourly_items"></ul>
+          <div class="overflow-shadow-dark"></div>
         </div>
+      </div>
     </section>
 
     <section class="daily-fc">
-        <div class="content-margin">
-            <h2 class="section-subtitle">Daily Forecast</h2>
-            <div class="pos-relative">
-                <ul class="daily_items">
-                </ul>
-                <div class="overflow-shadow-light"></div>
-            </div>
+      <div class="content-margin">
+        <h2 class="section-subtitle">Daily Forecast</h2>
+        <div class="pos-relative">
+          <ul class="daily_items"></ul>
+          <div class="overflow-shadow-light"></div>
         </div>
+      </div>
     </section>
 
     <div class="loader">
-        <div class="loader_content">
-            <div class="loader_dots">
-                <div style="--order: 0;"></div>
-                <div style="--order: 1;"></div>
-                <div style="--order: 2;"></div>
-            </div>
-            <p>Loading updated data</p>
+      <div class="loader_content">
+        <div class="loader_dots">
+          <div style="--order: 0"></div>
+          <div style="--order: 1"></div>
+          <div style="--order: 2"></div>
         </div>
-        <div class="loader_overlay"></div>
+        <p>Loading updated data</p>
+      </div>
+      <div class="loader_overlay"></div>
     </div>
 
     <footer class="dark-bg">
-        <div class="content-margin">
-            <div>
-                <a href="https://openweathermap.org/" target="_blank">
-                    <img src="./images/logo-open-weather.png" width="150" alt="">
-                </a>
-                <p>Created with Open Weather API.</p>
-            </div>
-            <div class="footer_personal-info">
-                <a href="https://github.com/DarkWool/weather-app" target="_blank" aria-label="DarkWool Profile" title="DarkWool Profile">
-                    <img src="./images/github-mark.png" alt="" class="footer_github-logo grow" width="50">
-                </a>
-                <p>Project made by <a href="https://github.com/DarkWool/" target="_blank">DarkWool.</a></p>
-            </div>
+      <div class="content-margin">
+        <div>
+          <a href="https://openweathermap.org/" target="_blank">
+            <img src="./images/logo-open-weather.png" width="150" alt="" />
+          </a>
+          <p>Created with Open Weather API.</p>
         </div>
+        <div class="footer_personal-info">
+          <a
+            href="https://github.com/DarkWool/weather-app"
+            target="_blank"
+            aria-label="DarkWool Profile"
+            title="DarkWool Profile"
+          >
+            <img
+              src="./images/github-mark.png"
+              alt=""
+              class="footer_github-logo grow"
+              width="50"
+            />
+          </a>
+          <p>
+            Project made by
+            <a href="https://github.com/DarkWool/" target="_blank">DarkWool.</a>
+          </p>
+        </div>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

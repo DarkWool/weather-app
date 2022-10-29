@@ -1,65 +1,72 @@
-@import url("https://fonts.googleapis.com/css2?family=Encode+Sans:wght@300;500;700&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-*, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    scrollbar-width: thin;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  scrollbar-width: thin;
 }
 
 :root {
-    --darkColor: hsl(203, 40%, 8%);
-    --accent: hsl(172, 90%, 48%);
+  --darkColor: hsl(203, 40%, 8%);
+  --accent: hsl(172, 90%, 48%);
 }
 
 ::selection {
-    background-color: hsl(18, 100%, 32%);
-    color: white;
+  background-color: hsla(18, 100%, 32%, 0.85);
+  color: white;
 }
 
 html {
-    font-size: 10px;
-    height: 100%;
-    scrollbar-width: thin;
+  font-size: 10px;
+  height: 100%;
+  scrollbar-width: thin;
 }
 
 body {
-    line-height: 1.2;
+  line-height: 1.2;
 }
 
-body, button, input, select, textarea {
-    font-family: Roboto, sans-serif;
-    font-size: 1.6rem;
-    color: black;
-    text-rendering: optimizeLegibility;
+body,
+button,
+input,
+select,
+textarea {
+  font-family: Roboto, sans-serif;
+  font-size: 1.6rem;
+  color: black;
+  text-rendering: optimizeLegibility;
 }
 
-input, textarea {
-    appearance: none;
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid hsl(216, 14%, 75%);
-    border: 0;
+input,
+textarea {
+  appearance: none;
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid hsl(216, 14%, 75%);
+  border: 0;
 }
 
 ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 img {
-    max-width: 100%;
-    height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 a {
-    text-decoration: none;
-    color: var(--accent);
-    transition: 0.15s color ease;
+  text-decoration: none;
+  color: var(--accent);
+  transition: 0.15s color ease;
 }
 
 a:hover {
-    color: hsl(20, 90%, 49%);
+  color: hsl(20, 90%, 49%);
 }
 
 
@@ -67,122 +74,122 @@ a:hover {
 
 /* ----- Curr weather ----- */
 .content-margin {
-    margin: 0 auto;
-    max-width: 1150px;
-    padding-left: 25px;
-    padding-right: 25px;
+  margin: 0 auto;
+  max-width: 1150px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 .weather {
-    padding: 40px 0 80px;
-    color: white;
-    background-position: center center;
-    background-size: cover;
-    background-color: hsla(0, 0%, 0%, 0.6);
-    background-blend-mode: darken;
+  padding: 40px 0 80px;
+  color: white;
+  background-position: center center;
+  background-size: cover;
+  background-color: hsla(0, 0%, 0%, 0.6);
+  background-blend-mode: darken;
 }
 
 .weather_header {
-    display: flex;
-    gap: 75px;
+  display: flex;
+  gap: 75px;
 }
 
 .weather_searchbar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    flex-grow: 1;
-    padding: 5px 10px;
-    border-radius: 4px;
-    background-color: aliceblue;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-grow: 1;
+  padding: 5px 10px;
+  border-radius: 4px;
+  background-color: aliceblue;
 }
 
 .weather_searchbar:focus-within {
-    outline: 2px solid hsl(185.8, 90.3%, 40.4%);
+  outline: 2px solid hsl(185.8, 90.3%, 40.4%);
 }
 
 .weather_search-input {
-    background: transparent;
+  background: transparent;
 }
 
 .weather_search-input:focus {
-    border: none;
-    outline: none;
+  border: none;
+  outline: none;
 }
 
 .searchbar-icon {
-    left: 5px;
+  left: 5px;
 }
 
 .weather_info {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  margin-top: 40px;
 }
 
 .weather_icon {
-    display: block;
-    max-width: 100px;
-    width: 100%;
+  display: block;
+  max-width: 100px;
+  width: 100%;
 }
 
 .weather_temp {
-    font-size: 6.4rem;
-    line-height: 1;
+  font-size: 6.4rem;
+  line-height: 1;
 }
 
 .weather_city {
-    font-size: 3rem;
-    font-weight: 600;
-    text-transform: uppercase;
+  font-size: 3rem;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .weather_sun-info {
-    display: flex;
-    align-items: center;
-    gap: 50px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
 }
 
 .weather_sun-info > div {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
 }
 
 .weather_sun-info .icon-container {
-    margin: auto;
-    margin-bottom: 10px;
+  margin: auto;
+  margin-bottom: 10px;
 }
 
 .weather_extras {
-    display: grid;
-    justify-content: space-between;
-    margin-top: 80px;
-    grid-template-columns: repeat(6, auto);
-    gap: 30px 25px;
+  display: grid;
+  justify-content: space-between;
+  margin-top: 80px;
+  grid-template-columns: repeat(6, auto);
+  gap: 30px 25px;
 }
 
 .weather_extra-block {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: repeat(2, auto);
-    align-items: center;
-    column-gap: 10px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: repeat(2, auto);
+  align-items: center;
+  column-gap: 10px;
 }
 
 .weather_extra-block > .icon-container {
-    grid-row: span 2;
+  grid-row: span 2;
 }
 
 .weather_extra-val {
-    font-size: 2rem;
-    align-self: end;
+  font-size: 2rem;
+  align-self: end;
 }
 
 .weather_extra-title {
-    color: hsl(220, 0%, 85%);
-    align-self: start;
+  color: hsl(220, 0%, 85%);
+  align-self: start;
 }
 
 
@@ -190,52 +197,52 @@ a:hover {
 
 /* ----- Hourly forecast ----- */
 .hourly-fc {
-    padding: 50px 0;
-    background-color: var(--darkColor);
-    color: white;
-    fill: white;
+  padding: 50px 0;
+  background-color: var(--darkColor);
+  color: white;
+  fill: white;
 }
 
 .hourly_items {
-    overflow-x: auto;
-    display: flex;
-    column-gap: 60px;
-    margin-top: 30px;
-    padding-bottom: 10px;
-    padding-right: 50px;
+  overflow-x: auto;
+  display: flex;
+  column-gap: 60px;
+  margin-top: 30px;
+  padding-bottom: 10px;
+  padding-right: 50px;
 }
 
 .hourly_item {
-    display: flex;
-    flex-direction: column;
-    row-gap: 5px;
-    flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  flex-shrink: 0;
 }
 
 .hourly_item > img {
-    flex-grow: 1;
-    width: 65px;
+  flex-grow: 1;
+  width: 65px;
 }
 
 .hourly_temp {
-    font-size: 2.4rem;
+  font-size: 2.4rem;
 }
 
 .hourly_pop {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .hourly_pop > .icon-container {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .hourly_time {
-    margin-top: 5px;
-    font-weight: 500;
-    color: var(--accent);
+  margin-top: 5px;
+  font-weight: 500;
+  color: var(--accent);
 }
 
 
@@ -243,74 +250,74 @@ a:hover {
 
 /* ----- Daily Forecast ----- */
 .daily-fc {
-    padding: 50px 0 90px;
+  padding: 50px 0 90px;
 }
 
 .daily_items {
-    display: flex;
-    gap: 10px;
-    margin-top: 40px;
-    overflow-x: auto;
+  display: flex;
+  gap: 10px;
+  margin-top: 40px;
+  overflow-x: auto;
 }
 
 .daily_item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    flex-shrink: 0;
-    max-width: 275px;
-    width: 100%;
-    padding: 30px;
-    border-radius: 4px;
-    color: white;
-    fill: white;
-    background-color: var(--darkColor);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  max-width: 275px;
+  width: 100%;
+  padding: 30px;
+  border-radius: 4px;
+  color: white;
+  fill: white;
+  background-color: var(--darkColor);
 }
 
 .daily_item > img {
-    max-width: 80px;
+  max-width: 80px;
 }
 
 .daily_item-temperatures {
-    display: flex;
-    gap: 60px;
-    margin: 25px 0 35px 0;
+  display: flex;
+  gap: 60px;
+  margin: 25px 0 35px 0;
 }
 
 .daily_item-temperatures > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
 }
 
 .daily_temp {
-    font-size: 2.4rem;
+  font-size: 2.4rem;
 }
 
 .daily_temp-max,
 .daily_temp-min {
-    padding: 2px 5px;
-    border-radius: 2px;
+  padding: 2px 5px;
+  border-radius: 2px;
 }
 
 .daily_temp-max {
-    background-color: hsl(0, 84%, 44%);
+  background-color: hsl(0, 84%, 44%);
 }
 
 .daily_temp-min {
-    background-color: hsl(212, 84%, 44%);
+  background-color: hsl(212, 84%, 44%);
 }
 
 .daily_extras > li + li {
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .daily_extra-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 
@@ -319,59 +326,59 @@ a:hover {
 /* ----- Loader ----- */
 .loader,
 .loader_overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .loader {
-    justify-content: center;
-    align-items: center;
-    display: none;
-    color: white;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  color: white;
 }
 
 .loader.active {
-    display: flex;
+  display: flex;
 }
 
 .loader_content {
-    z-index: 1;
+  z-index: 1;
 }
 
 .loader_content > p {
-    font-weight: 300;
-    font-size: 5.6rem;
-    margin-top: 50px;
+  font-weight: 300;
+  font-size: 5.6rem;
+  margin-top: 50px;
 }
 
 .loader_dots {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
 }
 
 .loader_dots > div {
-    width: 32px;
-    height: 32px;
-    display: block;
-    border-radius: 100%;
-    background-color: hsl(176, 100%, 33%);
-    animation: bounceCircle 0.6s infinite alternate;
-    animation-delay: calc(var(--order) * 200ms);
-    transform: translateY(20px);
+  width: 32px;
+  height: 32px;
+  display: block;
+  border-radius: 100%;
+  background-color: hsl(176, 100%, 33%);
+  animation: bounceCircle 0.6s infinite alternate;
+  animation-delay: calc(var(--order) * 200ms);
+  transform: translateY(20px);
 }
 
 @keyframes bounceCircle {
-    to {
-        transform: translateY(-20px);
-    }
+  to {
+    transform: translateY(-20px);
+  }
 }
 
 .loader_overlay {
-    background-color: hsla(205, 19%, 13%, 0.96);
+  background-color: hsla(205, 19%, 13%, 0.96);
 }
 
 
@@ -379,26 +386,26 @@ a:hover {
 
 /* ----- Footer ----- */
 footer {
-    font-size: 1.4rem;
+  font-size: 1.4rem;
 }
 
 footer > div {
-    display: grid;
-    grid-template-columns: auto auto;
-    padding: 30px 0;
-    align-items: center;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 30px 0;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .footer_personal-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
 }
 
 .footer_github-logo {
-    max-width: 50px;
+  max-width: 50px;
 }
 
 
@@ -406,65 +413,65 @@ footer > div {
 
 /* ----- Dropdown ----- */
 .dropdown-container {
-    position: relative;
-    max-width: 60px;
-    width: 100%;
+  position: relative;
+  max-width: 60px;
+  width: 100%;
 }
 
 .dropdown-container.active > .dropdown {
-    transform: translateY(0px);
-    visibility: visible;
-    opacity: 1;
+  transform: translateY(0px);
+  visibility: visible;
+  opacity: 1;
 }
 
 .dropdown {
-    position: absolute;
-    right: 0%;
-    top: calc(100% + 10px);
-    font-size: 1.4rem;
-    padding: 10px 0;
-    border: 1px solid var(--accent);
-    border-radius: 4px;
-    box-shadow: 0 7px 15px hsla(202.9, 51.2%, 8%, 0.5);
-    background-color: var(--darkColor);
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: 0.15s all ease;
-    visibility: collapse;
+  position: absolute;
+  right: 0%;
+  top: calc(100% + 10px);
+  font-size: 1.4rem;
+  padding: 10px 0;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  box-shadow: 0 7px 15px hsla(202.9, 51.2%, 8%, 0.5);
+  background-color: var(--darkColor);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: 0.15s all ease;
+  visibility: collapse;
 }
 
 .dropdown::before {
-    content: "";
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    left: calc(50% + 15px);
-    bottom: 100%;
-    transform: rotate(45deg) translateY(50%);
-    transform-origin: center bottom;
-    border: 1px solid hsla(0, 100%, 50%, 0);
-    border-left: 1px solid var(--accent);
-    border-top: 1px solid var(--accent);
-    background-color: var(--darkColor);
+  content: "";
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  left: calc(50% + 15px);
+  bottom: 100%;
+  transform: rotate(45deg) translateY(50%);
+  transform-origin: center bottom;
+  border: 1px solid hsla(0, 100%, 50%, 0);
+  border-left: 1px solid var(--accent);
+  border-top: 1px solid var(--accent);
+  background-color: var(--darkColor);
 }
 
 .dropdown > ul {
-    white-space: nowrap;
+  white-space: nowrap;
 }
 
 .dropdown_item > button {
-    background-color: hsla(0, 0%, 0%, 0%);
-    width: 100%;
-    padding: 5px 15px;
-    font-size: 1.4rem;
-    text-align: left;
-    border-radius: 0;
-    color: white;
-    transition: 0.2s background-color ease;
+  background-color: hsla(0, 0%, 0%, 0%);
+  width: 100%;
+  padding: 5px 15px;
+  font-size: 1.4rem;
+  text-align: left;
+  border-radius: 0;
+  color: white;
+  transition: 0.2s background-color ease;
 }
 
 .dropdown_item > button:hover {
-    background-color: hsl(203, 45%, 24%);
+  background-color: hsl(203, 45%, 24%);
 }
 
 
@@ -472,121 +479,132 @@ footer > div {
 
 /* ----- Utilities ----- */
 .section-subtitle {
-    font-size: 2.4rem;
-    font-weight: 800;
-    line-height: 1;
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .overflow-shadow-light,
 .overflow-shadow-dark {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 50px;
-    pointer-events: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 50px;
+  pointer-events: none;
 }
 
 .overflow-shadow-light {
-    background: linear-gradient(90deg, hsla(0, 0%, 100%, 0) 0%, var(--darkColor) 100%);
+  background: linear-gradient(
+    90deg,
+    hsla(0, 0%, 100%, 0) 0%,
+    var(--darkColor) 100%
+  );
 }
 
 .overflow-shadow-dark {
-    background: linear-gradient(90deg, hsla(0, 0%, 100%, 0) 0%, hsl(202.5, 40%, 7.8%) 75%);
+  background: linear-gradient(
+    90deg,
+    hsla(0, 0%, 100%, 0) 0%,
+    hsl(202.5, 40%, 7.8%) 75%
+  );
 }
 
 .icon-container > svg {
-    display: block;
+  display: block;
 }
 
 .txt-center {
-    text-align: center;
+  text-align: center;
 }
 
 .fw-600 {
-    font-weight: 600;
+  font-weight: 600;
 }
 
 .m-left-a {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .span-2-col {
-    grid-column: span 2;
+  grid-column: span 2;
 }
 
 .dark-bg {
-    background-color: var(--darkColor);
-    color: white;
+  background-color: var(--darkColor);
+  color: white;
 }
 
 .invalid-input {
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    padding: 8px 10px;
-    margin-top: 10px;
-    font-size: 1.4rem;
-    font-weight: 500;
-    border-radius: 4px;
-    border: 1px solid red;
-    background-color: hsl(0, 78.6%, 45%);
-    color: white;
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  padding: 8px 10px;
+  margin-top: 10px;
+  font-size: 1.4rem;
+  font-weight: 500;
+  border-radius: 4px;
+  border: 1px solid red;
+  background-color: hsl(0, 78.6%, 45%);
+  color: white;
 }
 
 .invalid-input.active {
-    display: block;
+  display: block;
 }
 
 .invalid-input::before {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 30px;
-    width: 10px;
-    height: 10px;
-    background-color: hsl(0, 78%, 45%);
-    transform: rotate(45deg) translateY(50%);
-    transform-origin: center bottom;
-    border: 1px solid hsla(0, 100%, 50%, 0);
-    border-top: 1px solid red;
-    border-left: 1px solid red;
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 30px;
+  width: 10px;
+  height: 10px;
+  background-color: hsl(0, 78%, 45%);
+  transform: rotate(45deg) translateY(50%);
+  transform-origin: center bottom;
+  border: 1px solid hsla(0, 100%, 50%, 0);
+  border-top: 1px solid red;
+  border-left: 1px solid red;
 }
 
 .pos-relative {
-    position: relative;
+  position: relative;
 }
+
+
+
 
 /* Chrome scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 7px;
+  width: 8px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: hsl(0deg 0% 45%);
-    border-radius: 5px;
+  background-color: hsl(0deg 0% 45%);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background-color: hsl(0deg 0% 35%);
+  background-color: hsl(0deg 0% 35%);
 }
 
 ::-webkit-scrollbar-thumb:active {
-    background-color: hsl(212, 100%, 50%);
+  background-color: hsl(212, 100%, 50%);
 }
 
 ::-webkit-scrollbar-track {
-    background-color: hsl(0deg 0% 78%);
+  background-color: hsl(0deg 0% 78%);
 }
 
 :is(.hourly_items, .daily_items)::-webkit-scrollbar-track {
-    border-radius: 5px;
+  border-radius: 5px;
 }
 
 .hourly_items::-webkit-scrollbar-track {
-    background: transparent;
+  background: transparent;
 }
 
 
@@ -594,51 +612,51 @@ footer > div {
 
 /* ----- Buttons ----- */
 button {
-    cursor: pointer;
-    appearance: none;
-    border: none;
-    border-radius: 4px;
+  cursor: pointer;
+  appearance: none;
+  border: none;
+  border-radius: 4px;
 }
 
 .header-btn {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 3px;
-    padding: 7px;
-    width: 100%;
-    font-weight: 800;
-    border: 1px solid transparent;
-    background-color: hsla(174, 100%, 50%, 0);
-    color: hsl(0, 0%, 100%);
-    transition: 0.2s border ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
+  padding: 7px;
+  width: 100%;
+  font-weight: 800;
+  border: 1px solid transparent;
+  background-color: hsla(174, 100%, 50%, 0);
+  color: hsl(0, 0%, 100%);
+  transition: 0.2s border ease;
 }
 
 .header-btn > .icon-container {
-    width: 20px;
-    height: 20px;
-    transition: 0.15s all ease;
+  width: 20px;
+  height: 20px;
+  transition: 0.15s all ease;
 }
 
 .dropdown-container.active > .header-btn > .icon-container,
-.header-btn:hover > .icon-container  {
-    transform: translateY(3px);
+.header-btn:hover > .icon-container {
+  transform: translateY(3px);
 }
 
 .dropdown_btn {
-    padding: 5px 15px;
-    border-radius: 0;
-    color: white;
-    background-color: transparent;
-    font-size: 1.4rem;
+  padding: 5px 15px;
+  border-radius: 0;
+  color: white;
+  background-color: transparent;
+  font-size: 1.4rem;
 }
 
 .grow {
-    transition: transform 0.1s ease;
+  transition: transform 0.1s ease;
 }
 
 .grow:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }
 
 
@@ -646,177 +664,178 @@ button {
 
 /* ----- Media queries ----- */
 @media screen and (max-width: 1000px) {
-    .weather {
-        padding-bottom: 60px;
-    }
+  .weather {
+    padding-bottom: 60px;
+  }
 
-    .weather_icon {
-        max-width: 80px;
-    }
+  .weather_icon {
+    max-width: 80px;
+  }
 
-    .weather_temp {
-        font-size: 5rem;
-    }
+  .weather_temp {
+    font-size: 5rem;
+  }
 
-    .weather_temp-desc {
-        font-size: 16px;
-    }
+  .weather_temp-desc {
+    font-size: 16px;
+  }
 
-    .weather_city {
-        font-size: 2.4rem;
-    }
+  .weather_city {
+    font-size: 2.4rem;
+  }
 
-    .weather_extras {
-        grid-template-columns: repeat(3, 1fr);
-    }
+  .weather_extras {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-    .weather_extra-val {
-        font-size: 1.8rem;
-    }
+  .weather_extra-val {
+    font-size: 1.8rem;
+  }
 
-    .daily-fc {
-        padding: 50px 0 75px;
-    }
+  .daily-fc {
+    padding: 50px 0 75px;
+  }
 
-    .daily_items {
-        margin-top: 30px;
-    }
+  .daily_items {
+    margin-top: 30px;
+  }
 
+  /* Loader */
+  .loader_content > p {
+    font-size: 3.6rem;
+  }
 
-    /* Loader */
-    .loader_content > p {
-        font-size: 3.6rem;
-    }
-
-    .loader_dots > div {
-        width: 24px;
-        height: 24px;
-    }
+  .loader_dots > div {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 @media screen and (max-width: 600px) {
-    body, button, input, select, textarea {
-        font-size: 1.4rem;
-    }
+  body,
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 1.4rem;
+  }
 
-    .content-margin {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
+  .content-margin {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
 
-    .weather {
-        padding: 20px 0 50px;
-    }
+  .weather {
+    padding: 20px 0 50px;
+  }
 
-    .weather_header {
-        gap: 25px;
-    }
+  .weather_header {
+    gap: 25px;
+  }
 
-    .weather_icon {
-        max-width: 70px;
-    }
+  .weather_icon {
+    max-width: 70px;
+  }
 
-    .weather_temp {
-        font-size: 4rem;
-    }
+  .weather_temp {
+    font-size: 4rem;
+  }
 
-    .weather_city {
-        font-size: 1.8rem;
-    }
+  .weather_city {
+    font-size: 1.8rem;
+  }
 
-    .weather_sun-info {
-        flex-direction: column;
-        gap: 20px;
-    }
+  .weather_sun-info {
+    flex-direction: column;
+    gap: 20px;
+  }
 
-    .weather_sun-info svg {
-        width: 24px;
-        height: 24px;
-    }
+  .weather_sun-info svg {
+    width: 24px;
+    height: 24px;
+  }
 
-    .weather_extras {
-        grid-template-columns: repeat(2, 1fr);
-        margin-top: 50px;
-        row-gap: 25px;
-    }
+  .weather_extras {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: 50px;
+    row-gap: 25px;
+  }
 
-    .weather_extra-block > .icon-container svg {
-        width: 24px;
-        height: 24px;
-    }
+  .weather_extra-block > .icon-container svg {
+    width: 24px;
+    height: 24px;
+  }
 
-    .weather_extra-val {
-        font-size: 1.6rem;
-    }
+  .weather_extra-val {
+    font-size: 1.6rem;
+  }
 
-    .weather_extra-title {
-        font-size: 1.4rem;
-    }
+  .weather_extra-title {
+    font-size: 1.4rem;
+  }
 
-    .section-subtitle {
-        font-size: 1.8rem;
-    }
+  .section-subtitle {
+    font-size: 1.8rem;
+  }
 
-    .hourly-fc {
-        padding: 40px 0;
-    }
+  .hourly-fc {
+    padding: 40px 0;
+  }
 
-    .hourly_items {
-        margin-top: 20px;
-        column-gap: 40px;
-    }
+  .hourly_items {
+    margin-top: 20px;
+    column-gap: 40px;
+  }
 
-    .hourly_item {
-        row-gap: 8px;
-    }
+  .hourly_item {
+    row-gap: 8px;
+  }
 
-    .hourly_item > img {
-        width: 50px;
-    }
+  .hourly_item > img {
+    width: 50px;
+  }
 
-    .hourly_pop > .icon-container {
-        width: 16px;
-        height: 16px;
-    }
+  .hourly_pop > .icon-container {
+    width: 16px;
+    height: 16px;
+  }
 
-    .hourly_time {
-        margin-top: 0;
-    }
+  .hourly_time {
+    margin-top: 0;
+  }
 
-    .daily-fc {
-        padding: 40px 0 60px;
-    }
+  .daily-fc {
+    padding: 40px 0 60px;
+  }
 
-    .daily_item {
-        max-width: 215px;
-        padding: 20px 15px;
-    }
+  .daily_item {
+    max-width: 215px;
+    padding: 20px 15px;
+  }
 
-    .hourly_temp,
-    .daily_temp {
-        font-size: 2rem;
-    }
+  .hourly_temp,
+  .daily_temp {
+    font-size: 2rem;
+  }
 
+  footer > div {
+    display: grid;
+    grid-template-columns: auto;
+    justify-content: center;
+    row-gap: 30px;
+  }
 
-    footer > div {
-        display: grid;
-        grid-template-columns: auto;
-        justify-content: center;
-        row-gap: 30px;
-    }
+  .footer_personal-info {
+    align-items: center;
+    margin: auto;
+  }
 
-    .footer_personal-info {
-        align-items: center;
-        margin: auto;
-    }
+  .footer_github-logo {
+    max-width: 40px;
+  }
 
-    .footer_github-logo {
-        max-width: 40px;
-    }
-
-
-    /* Loader */
-    .loader_content > p {
-        font-size: 2.8rem;
-    }
+  /* Loader */
+  .loader_content > p {
+    font-size: 2.8rem;
+  }
 }
